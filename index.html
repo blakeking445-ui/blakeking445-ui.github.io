@@ -1,425 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Alex Rivera — Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet"/>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #0c0c0f;
-    --surface: #141418;
-    --surface2: #1c1c22;
-    --accent: #b8f567;
-    --accent2: #5b8cff;
-    --text: #f0ede6;
-    --muted: #8a8880;
-    --border: rgba(255,255,255,0.08);
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Syne', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Nav */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    padding: 1.2rem 3rem;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(12,12,15,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--accent); letter-spacing: 0.05em; }
-  .nav-links { display: flex; gap: 2rem; }
-  .nav-links a { font-size: 0.85rem; color: var(--muted); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--text); }
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 8rem 3rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-grid {
-    position: absolute; inset: 0; opacity: 0.07;
-    background-image:
-      linear-gradient(var(--accent2) 1px, transparent 1px),
-      linear-gradient(90deg, var(--accent2) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
-  .hero-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem; color: var(--accent);
-    letter-spacing: 0.15em; text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .hero-tag::before { content: ''; display: inline-block; width: 2rem; height: 1px; background: var(--accent); }
-  h1 {
-    font-size: clamp(3.5rem, 9vw, 8rem);
-    font-weight: 800;
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    margin-bottom: 2rem;
-  }
-  h1 span { color: var(--accent); }
-  .hero-desc {
-    max-width: 480px;
-    font-size: 1.1rem;
-    color: var(--muted);
-    line-height: 1.7;
-    margin-bottom: 3rem;
-  }
-  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .btn-primary {
-    padding: 0.85rem 2rem;
-    background: var(--accent);
-    color: #0c0c0f;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: transform 0.15s, background 0.2s;
-    display: inline-block;
-  }
-  .btn-primary:hover { transform: translateY(-2px); background: #ccff77; }
-  .btn-ghost {
-    padding: 0.85rem 2rem;
-    background: transparent;
-    color: var(--text);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color 0.2s, transform 0.15s;
-    display: inline-block;
-  }
-  .btn-ghost:hover { border-color: var(--muted); transform: translateY(-2px); }
-
-  /* Ticker */
-  .ticker-wrap {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-    padding: 0.9rem 0;
-    background: var(--surface);
-  }
-  .ticker {
-    display: flex; gap: 3rem;
-    animation: ticker 20s linear infinite;
-    white-space: nowrap;
-  }
-  .ticker-item {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--muted);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    display: flex; align-items: center; gap: 1rem;
-  }
-  .ticker-item::after { content: '//'; color: var(--accent); }
-  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  /* Sections */
-  section { padding: 6rem 3rem; }
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem; color: var(--accent);
-    letter-spacing: 0.15em; text-transform: uppercase;
-    margin-bottom: 1rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .section-label::before { content: ''; display: inline-block; width: 1.5rem; height: 1px; background: var(--accent); }
-  h2 {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 3rem;
-  }
-
-  /* About */
-  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
-  .about-text { font-size: 1.1rem; color: var(--muted); line-height: 1.8; }
-  .skills-list { display: flex; flex-direction: column; gap: 1rem; }
-  .skill-row { display: flex; align-items: center; justify-content: space-between; }
-  .skill-name { font-family: 'Space Mono', monospace; font-size: 0.8rem; letter-spacing: 0.05em; }
-  .skill-bar { flex: 1; margin: 0 1rem; height: 2px; background: var(--surface2); position: relative; }
-  .skill-fill { height: 100%; background: var(--accent); transition: width 1s ease; }
-  .skill-pct { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); }
-
-  /* Projects */
-  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-  .project-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: default;
-  }
-  .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-  .project-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: var(--accent);
-    transform: scaleX(0); transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-  .project-card:hover::before { transform: scaleX(1); }
-  .project-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; color: var(--muted);
-    letter-spacing: 0.1em; margin-bottom: 1.5rem;
-  }
-  .project-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; }
-  .project-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.08em;
-    padding: 0.3rem 0.75rem;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    text-transform: uppercase;
-  }
-
-  /* Experience */
-  .exp-list { display: flex; flex-direction: column; gap: 0; }
-  .exp-item {
-    display: grid; grid-template-columns: 180px 1fr;
-    gap: 2rem;
-    padding: 2.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .exp-item:first-child { border-top: 1px solid var(--border); }
-  .exp-period { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); padding-top: 0.25rem; }
-  .exp-role { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; }
-  .exp-company { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--accent); margin-bottom: 0.75rem; }
-  .exp-body { font-size: 0.95rem; color: var(--muted); line-height: 1.7; }
-
-  /* Contact */
-  .contact-inner {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 4rem;
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-  }
-  .contact-inner h2 { margin-bottom: 1rem; }
-  .contact-inner p { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; max-width: 420px; }
-  .contact-email {
-    font-family: 'Space Mono', monospace;
-    font-size: 1.1rem; color: var(--accent);
-    text-decoration: none; letter-spacing: 0.05em;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
-    transition: opacity 0.2s;
-    margin-bottom: 2.5rem;
-    display: inline-block;
-  }
-  .contact-email:hover { opacity: 0.7; }
-  .social-links { display: flex; gap: 1.5rem; }
-  .social-links a {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem; color: var(--muted);
-    text-decoration: none; letter-spacing: 0.08em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .social-links a:hover { color: var(--text); }
-
-  /* Footer */
-  footer {
-    padding: 2rem 3rem;
-    border-top: 1px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  footer span { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
-
-  /* Fade-in animation */
-  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-  @media (max-width: 700px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1.2rem; }
-    .hero { padding: 7rem 1.5rem 4rem; }
-    section { padding: 4rem 1.5rem; }
-    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .contact-inner { padding: 2.5rem 1.5rem; }
-    footer { flex-direction: column; gap: 0.75rem; text-align: center; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Scan Viewer</title>
+    <style>
+        body { margin: 0; background: #1a1a1a; overflow: hidden; font-family: sans-serif; }
+        #info { position: absolute; top: 10px; width: 100%; text-align: center; color: white; pointer-events: none; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
+    <div id="info">Drag to Rotate | Scroll to Zoom</div>
 
-<nav>
-  <span class="nav-logo">AR.eng</span>
-  <div class="nav-links">
-    <a href="#about">About</a>
-    <a href="#projects">Projects</a>
-    <a href="#experience">Experience</a>
-    <a href="#contact">Contact</a>
-  </div>
-</nav>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-grid"></div>
-  <div class="hero-tag">Available for opportunities</div>
-  <h1>Alex<br><span>Rivera</span></h1>
-  <p class="hero-desc">Software engineer building robust systems, elegant infrastructure, and tools that make a difference.</p>
-  <div class="hero-btns">
-    <a href="#projects" class="btn-primary">View Projects</a>
-    <a href="#contact" class="btn-ghost">Get in Touch</a>
-  </div>
-</section>
+    <script type="module">
+        import * as THREE from 'three';
+        import { STLLoader } from 'three/addons/loaders/STLLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-<!-- Ticker -->
-<div class="ticker-wrap">
-  <div class="ticker">
-    <span class="ticker-item">Systems Engineering</span>
-    <span class="ticker-item">Distributed Systems</span>
-    <span class="ticker-item">Backend Architecture</span>
-    <span class="ticker-item">Cloud Infrastructure</span>
-    <span class="ticker-item">API Design</span>
-    <span class="ticker-item">Performance Optimization</span>
-    <span class="ticker-item">Systems Engineering</span>
-    <span class="ticker-item">Distributed Systems</span>
-    <span class="ticker-item">Backend Architecture</span>
-    <span class="ticker-item">Cloud Infrastructure</span>
-    <span class="ticker-item">API Design</span>
-    <span class="ticker-item">Performance Optimization</span>
-  </div>
-</div>
+        // 1. Scene Setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x222222);
 
-<!-- About -->
-<section id="about">
-  <div class="section-label">About me</div>
-  <div class="about-grid fade-in">
-    <div>
-      <h2>Building things<br>that <span style="color:var(--accent)">last</span></h2>
-      <p class="about-text">I'm a software engineer with a passion for designing systems that are reliable, scalable, and a pleasure to work with. I thrive at the intersection of elegant code and real-world impact.</p>
-    </div>
-    <div>
-      <div class="skills-list">
-        <div class="skill-row"><span class="skill-name">Python / Go</span><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div><span class="skill-pct">90%</span></div>
-        <div class="skill-row"><span class="skill-name">Cloud (AWS/GCP)</span><div class="skill-bar"><div class="skill-fill" style="width:82%"></div></div><span class="skill-pct">82%</span></div>
-        <div class="skill-row"><span class="skill-name">System Design</span><div class="skill-bar"><div class="skill-fill" style="width:88%"></div></div><span class="skill-pct">88%</span></div>
-        <div class="skill-row"><span class="skill-name">Databases</span><div class="skill-bar"><div class="skill-fill" style="width:78%"></div></div><span class="skill-pct">78%</span></div>
-        <div class="skill-row"><span class="skill-name">DevOps / CI-CD</span><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div><span class="skill-pct">75%</span></div>
-      </div>
-    </div>
-  </div>
-</section>
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 0, 5);
 
-<!-- Projects -->
-<section id="projects" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-label">Selected work</div>
-  <h2>Projects</h2>
-  <div class="projects-grid fade-in">
-    <div class="project-card">
-      <div class="project-num">01 / 2024</div>
-      <div class="project-title">Distributed Cache Layer</div>
-      <p class="project-desc">Designed and built a high-throughput caching system that reduced database load by 70% for a data-intensive platform serving millions of requests per day.</p>
-      <div class="project-tags"><span class="tag">Go</span><span class="tag">Redis</span><span class="tag">Kubernetes</span></div>
-    </div>
-    <div class="project-card">
-      <div class="project-num">02 / 2024</div>
-      <div class="project-title">CI/CD Pipeline Framework</div>
-      <p class="project-desc">Built an extensible deployment framework that cut release cycles from hours to minutes, with automated rollbacks and real-time observability dashboards.</p>
-      <div class="project-tags"><span class="tag">Python</span><span class="tag">GitHub Actions</span><span class="tag">Terraform</span></div>
-    </div>
-    <div class="project-card">
-      <div class="project-num">03 / 2023</div>
-      <div class="project-title">Event Streaming Platform</div>
-      <p class="project-desc">Architected a Kafka-based event streaming solution to decouple microservices, enabling real-time analytics pipelines and fault-tolerant message delivery at scale.</p>
-      <div class="project-tags"><span class="tag">Kafka</span><span class="tag">Java</span><span class="tag">AWS</span></div>
-    </div>
-    <div class="project-card">
-      <div class="project-num">04 / 2023</div>
-      <div class="project-title">Internal Dev Tooling</div>
-      <p class="project-desc">Created a suite of internal CLI tools and dashboards that improved developer productivity across engineering teams by standardizing local dev environments.</p>
-      <div class="project-tags"><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">Docker</span></div>
-    </div>
-  </div>
-</section>
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
 
-<!-- Experience -->
-<section id="experience">
-  <div class="section-label">Career</div>
-  <h2>Experience</h2>
-  <div class="exp-list fade-in">
-    <div class="exp-item">
-      <div class="exp-period">2022 — Present</div>
-      <div>
-        <div class="exp-role">Senior Software Engineer</div>
-        <div class="exp-company">Placeholder Corp.</div>
-        <p class="exp-body">Lead backend systems design for core platform services. Mentoring junior engineers and driving architectural decisions across three product teams.</p>
-      </div>
-    </div>
-    <div class="exp-item">
-      <div class="exp-period">2020 — 2022</div>
-      <div>
-        <div class="exp-role">Software Engineer</div>
-        <div class="exp-company">Tech Startup Inc.</div>
-        <p class="exp-body">Built and scaled API services from 0 to 1M+ requests/day. Worked closely with product and design to ship customer-facing features on aggressive timelines.</p>
-      </div>
-    </div>
-    <div class="exp-item">
-      <div class="exp-period">2019 — 2020</div>
-      <div>
-        <div class="exp-role">Junior Developer</div>
-        <div class="exp-company">Agency Co.</div>
-        <p class="exp-body">Developed full-stack web applications for clients across fintech and e-commerce verticals. Gained broad exposure to modern web technologies and agile workflows.</p>
-      </div>
-    </div>
-  </div>
-</section>
+        // 2. Lighting (Crucial for STL meshes)
+        const light1 = new THREE.DirectionalLight(0xffffff, 1);
+        light1.position.set(1, 1, 1);
+        scene.add(light1);
 
-<!-- Contact -->
-<section id="contact" style="background: var(--surface); border-top: 1px solid var(--border);">
-  <div class="contact-inner fade-in">
-    <div class="section-label" style="justify-content:center; margin-bottom:1.5rem;">Contact</div>
-    <h2>Let's build<br>something <span style="color:var(--accent)">great</span></h2>
-    <p>Open to new opportunities, collaborations, and interesting conversations. Don't hesitate to reach out.</p>
-    <a href="mailto:alex@example.com" class="contact-email">alex@example.com</a>
-    <div class="social-links">
-      <a href="#">GitHub</a>
-      <a href="#">LinkedIn</a>
-      <a href="#">Twitter</a>
-    </div>
-  </div>
-</section>
+        const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+        light2.position.set(-1, -1, 1);
+        scene.add(light2);
 
-<footer>
-  <span>Alex Rivera — Engineer</span>
-  <span>Built with care · 2024</span>
-</footer>
+        scene.add(new THREE.AmbientLight(0x404040)); // Soft base light
 
-<script>
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
-</script>
+        // 3. Load the STL File
+        const loader = new STLLoader();
+        // REPLACE 'your_file.stl' WITH YOUR ACTUAL FILENAME
+        loader.load('your_file.stl', function (geometry) {
+            
+            const material = new THREE.MeshPhongMaterial({ 
+                color: 0x00aaff, 
+                specular: 0x111111, 
+                shininess: 200 
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
 
+            // Center the model
+            geometry.computeBoundingBox();
+            const center = new THREE.Vector3();
+            geometry.boundingBox.getCenter(center);
+            mesh.position.sub(center);
+
+            scene.add(mesh);
+        });
+
+        // 4. Controls
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+
+        // 5. Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Handle Window Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
 </body>
 </html>
