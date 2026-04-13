@@ -45,13 +45,13 @@
         // --- LOAD YOUR FILES HERE ---
         
         // 1. Load the Scan
-        loader.load('models/my_scan.glb', (gltf) => { // <--- CHANGE FILENAME HERE
+        loader.load('base_scan.glb', (gltf) => { // <--- CHANGE FILENAME HERE
             scanMesh = gltf.scene;
             scene.add(scanMesh);
         });
 
         // 2. Load the CAD Model
-        loader.load('models/my_cad.glb', (gltf) => { // <--- CHANGE FILENAME HERE
+        loader.load('base_parametric.glb', (gltf) => { // <--- CHANGE FILENAME HERE
             cadMesh = gltf.scene;
             scene.add(cadMesh);
         });
