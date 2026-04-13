@@ -1,3 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Comparison</title>
+
+    <style>
+        body { margin: 0; overflow: hidden; background: #1a1a2e; }
+
+        #ui {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="ui">
+    <label><input type="checkbox" id="p" checked> Parametric</label><br>
+    <label><input type="checkbox" id="s" checked> Scan</label>
+</div>
+
 <script type="module">
 import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
 import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
@@ -12,8 +42,8 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x1a1a2e);
 
 // ===== CAMERA =====
-const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.001, 1000);
-camera.position.set(1,1,1);
+const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 1000);
+camera.position.set(1, 1, 1); // 🔥 moved closer
 
 // ===== RENDERER =====
 const renderer = new THREE.WebGLRenderer({antialias:true});
@@ -22,9 +52,8 @@ document.body.appendChild(renderer.domElement);
 
 // ===== CONTROLS =====
 const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.minDistance = 0.001;  // 🔥 allows super close zoom
-controls.maxDistance = 100;
+controls.minDistance = 0.01;  // 🔥 zoom in closer
+controls.maxDistance = 100;   // optional
 
 // ===== LIGHTS =====
 scene.add(new THREE.AmbientLight(0xffffff, 0.6));
@@ -38,37 +67,9 @@ const loader = new GLTFLoader();
 
 let model1, model2;
 
-// ===== AUTO FIT CAMERA =====
-function fitCamera() {
-    const box = new THREE.Box3();
-
-    if (model1) box.expandByObject(model1);
-    if (model2) box.expandByObject(model2);
-
-    if (box.isEmpty()) return;
-
-    const size = box.getSize(new THREE.Vector3()).length();
-    const center = box.getCenter(new THREE.Vector3());
-
-    camera.near = size / 100;
-    camera.far = size * 100;
-    camera.updateProjectionMatrix();
-
-    camera.position.copy(center);
-    camera.position.x += size / 2;
-    camera.position.y += size / 5;
-    camera.position.z += size / 2;
-
-    controls.target.copy(center);
-    controls.update();
-}
-
-// ===== LOAD PARAMETRIC =====
+// ===== LOAD MODELS =====
 loader.load(PARAM, (gltf)=>{
     model1 = gltf.scene;
-
-    // OPTIONAL scale fix (uncomment if tiny)
-    // model1.scale.set(1000,1000,1000);
 
     model1.traverse(o=>{
         if(o.isMesh){
@@ -78,15 +79,10 @@ loader.load(PARAM, (gltf)=>{
     });
 
     scene.add(model1);
-    if (model2) fitCamera();
 });
 
-// ===== LOAD SCAN =====
 loader.load(SCAN, (gltf)=>{
     model2 = gltf.scene;
-
-    // OPTIONAL scale fix (uncomment if tiny)
-    // model2.scale.set(1000,1000,1000);
 
     model2.traverse(o=>{
         if(o.isMesh){
@@ -96,7 +92,6 @@ loader.load(SCAN, (gltf)=>{
     });
 
     scene.add(model2);
-    if (model1) fitCamera();
 });
 
 // ===== TOGGLES =====
@@ -123,3 +118,6 @@ function animate(){
 }
 animate();
 </script>
+
+</body>
+</html>
