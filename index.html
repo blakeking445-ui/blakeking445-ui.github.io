@@ -46,13 +46,13 @@
             const loader = new THREE.GLTFLoader();
 
             // Load Parametric Model
-            loader.load('path/to/your/parametric_model.glb', function(gltf) {
+            loader.load('base_parametric.glb', function(gltf) {
                 parametricModel = gltf.scene;
                 scene.add(parametricModel);
             });
 
             // Load Scan Model
-            loader.load('path/to/your/scan_model.glb', function(gltf) {
+            loader.load('base_scan.glb', function(gltf) {
                 scanModel = gltf.scene;
                 scene.add(scanModel);
                 scanModel.visible = false; // Hide scan model by default
