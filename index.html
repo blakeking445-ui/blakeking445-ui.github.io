@@ -72,7 +72,7 @@ const loader = new GLTFLoader();
 let parametricModel, scanModel;
 
 // Load parametric
-loader.load("parametric.glb", (gltf) => {
+loader.load("baseparametric.glb", (gltf) => {
   parametricModel = gltf.scene;
   parametricModel.traverse(child => {
     if (child.isMesh) {
@@ -85,7 +85,7 @@ loader.load("parametric.glb", (gltf) => {
 });
 
 // Load scan
-loader.load("scan.glb", (gltf) => {
+loader.load("basescan.glb", (gltf) => {
   scanModel = gltf.scene;
   scanModel.traverse(child => {
     if (child.isMesh) {
