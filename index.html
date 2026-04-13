@@ -84,7 +84,7 @@ let parametricModel = null;
 let scanModel = null;
 
 // LOAD PARAMETRIC
-loader.load("parametric.glb", (gltf) => {
+loader.load("baseparametric.glb", (gltf) => {
   parametricModel = gltf.scene;
 
   parametricModel.traverse((c) => {
@@ -99,7 +99,7 @@ loader.load("parametric.glb", (gltf) => {
 });
 
 // LOAD SCAN
-loader.load("scan.glb", (gltf) => {
+loader.load("basescan.glb", (gltf) => {
   scanModel = gltf.scene;
 
   scanModel.traverse((c) => {
