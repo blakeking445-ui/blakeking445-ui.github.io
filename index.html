@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>My Portfolio Mesh Toggle</title>
+    <title>Mesh Comparison Portfolio</title>
     <style>
         body { margin: 0; background: #111; overflow: hidden; font-family: sans-serif; }
-        #controls { position: absolute; top: 20px; left: 20px; color: white; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px; }
+        #controls { position: absolute; top: 20px; left: 20px; color: white; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 8px; border: 1px solid #444; z-index: 10; }
         canvas { display: block; }
+        .toggle-group { margin-bottom: 10px; }
     </style>
 </head>
 <body>
 
     <div id="controls">
-        <h3>Mesh Comparison</h3>
-        <label><input type="checkbox" id="toggleScan" checked> Show Scan</label><br>
-        <label><input type="checkbox" id="toggleCAD" checked> Show CAD Model</label>
+        <div class="toggle-group">
+            <input type="checkbox" id="toggleScan" checked> 
+            <label for="toggleScan">Show 3D Scan (Grey)</label>
+        </div>
+        <div class="toggle-group">
+            <input type="checkbox" id="toggleCAD" checked> 
+            <label for="toggleCAD">Show CAD Model (Blue)</label>
+        </div>
+        <small style="color: #888;">Scroll to Zoom | Drag to Rotate</small>
     </div>
 
     <script type="importmap">
@@ -23,38 +30,62 @@
 
     <script type="module">
         import * as THREE from 'three';
-        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { STLLoader } from 'three/addons/loaders/STLLoader.js';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         // --- SCENE SETUP ---
         const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a1a1a);
+
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(150, 150, 150); // Moved back to see the 115mm part
+
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 5, 5);
-        scene.add(light, new THREE.AmbientLight(0x404040));
-        camera.position.z = 5;
+        controls.enableDamping = true;
+
+        // --- LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 1);
+        sunLight.position.set(100, 200, 100);
+        scene.add(sunLight);
 
         const loader = new GLTFLoader();
         let scanMesh, cadMesh;
 
-        // --- LOAD YOUR FILES HERE ---
-        
-        // 1. Load the Scan
-        loader.load('base_scan.glb', (gltf) => { // <--- CHANGE FILENAME HERE
-            scanMesh = gltf.scene;
-            scene.add(scanMesh);
-        });
+        // --- LOADING FUNCTION ---
+        // We use a function to avoid repeating code for both models
+        function loadModel(path, color, isScan) {
+            loader.load(path, (geometry) => {
+                geometry.center(); // This moves the model's center to 0,0,0
+                
+                const material = new THREE.MeshStandardMaterial({ 
+                    color: color,
+                    metalness: 0.5,
+                    roughness: 0.5
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                
+                if (isScan) scanMesh = mesh;
+                else cadMesh = mesh;
+                
+                console.log(`Loaded: ${path}`);
+            }, undefined, (error) => {
+                console.error(`Error loading ${path}:`, error);
+            });
+        }
 
-        // 2. Load the CAD Model
-        loader.load('base_parametric.glb', (gltf) => { // <--- CHANGE FILENAME HERE
-            cadMesh = gltf.scene;
-            scene.add(cadMesh);
-        });
+        // --- CHANGE FILENAMES HERE ---
+        // Make sure these match your GitHub files exactly (Case Sensitive!)
+        loadModel('base_scan.glb', 0x888888, true);  // Grey for scan
+        loadModel('base_parametric.glb', 0x0066ff, false); // Blue for CAD
 
         // --- UI LOGIC ---
         document.getElementById('toggleScan').addEventListener('change', (e) => {
@@ -73,6 +104,7 @@
         }
         animate();
 
+        // Handle Window Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
