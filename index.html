@@ -25,9 +25,8 @@
       padding: 6px 10px;
       cursor: pointer;
     }
-  </style>
 
-  #help {
+      #help {
   position: absolute;
   bottom: 10px;
   left: 50%;
@@ -39,6 +38,8 @@
   font-size: 12px;
   pointer-events: none;
 }
+  </style>
+ 
 
   <!-- FIXES MODULE ERROR -->
   <script type="importmap">
@@ -56,6 +57,10 @@
 <div id="ui">
   <button onclick="toggleParametric()">Toggle Parametric</button>
   <button onclick="toggleScan()">Toggle Scan</button>
+</div>
+
+  <div id="help">
+  Drag = Rotate | Scroll = Zoom | Right Click = Pan
 </div>
 
 <script type="module">
