@@ -14,6 +14,11 @@
       padding: 10px;
       border-radius: 8px;
     }
+    
+  <div id="help">
+  Drag = Rotate | Scroll = Zoom | Right Click = Pan
+</div>
+    
     button {
       display: block;
       margin: 5px 0;
@@ -21,6 +26,19 @@
       cursor: pointer;
     }
   </style>
+
+  #help {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  pointer-events: none;
+}
 
   <!-- FIXES MODULE ERROR -->
   <script type="importmap">
