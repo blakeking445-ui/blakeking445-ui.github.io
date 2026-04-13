@@ -28,11 +28,96 @@
   <button onclick="toggleScan()">Toggle Scan</button>
 </div>
 
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/loaders/GLTFLoader.js";
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/"
+  }
+}
+</script>
 
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+
+// Scene
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xeeeeee);
+
+// Camera
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.001, 1000);
+camera.position.set(0.1, 0.1, 0.2);
+
+// Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.minDistance = 0.001;
+controls.maxDistance = 100;
+controls.target.set(0, 0, 0);
+
+// Lighting
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.position.set(5,5,5);
+scene.add(dirLight);
+
+// Loader
+const loader = new GLTFLoader();
+
+let parametricModel, scanModel;
+
+// Load parametric
+loader.load("parametric.glb", (gltf) => {
+  parametricModel = gltf.scene;
+  parametricModel.traverse(c => {
+    if (c.isMesh) {
+      c.material.transparent = true;
+      c.material.opacity = 0.7;
+      c.material.color.set(0x0077ff);
+    }
+  });
+  scene.add(parametricModel);
+});
+
+// Load scan
+loader.load("scan.glb", (gltf) => {
+  scanModel = gltf.scene;
+  scanModel.traverse(c => {
+    if (c.isMesh) {
+      c.material.transparent = true;
+      c.material.opacity = 0.7;
+      c.material.color.set(0xff5500);
+    }
+  });
+  scene.add(scanModel);
+});
+
+// Toggle
+window.toggleParametric = () => parametricModel.visible = !parametricModel.visible;
+window.toggleScan = () => scanModel.visible = !scanModel.visible;
+
+// Resize
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Animate
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+animate();
+</script>
 // Scene
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xeeeeee);
