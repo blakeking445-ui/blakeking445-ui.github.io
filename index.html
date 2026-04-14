@@ -356,7 +356,7 @@ footer{
 <div class="glow" id="glow"></div>
 
 <nav>
-  <div class="brand">⚡ Blake King</div>
+  <div class="brand">Blake King</div>
   <div>
     <a onclick="scrollToSection('about')">About</a>
     <a onclick="scrollToSection('projects')">Projects</a>
@@ -390,7 +390,7 @@ footer{
   <p class="sub">Second-year Mechanical Engineering at Memorial University. Currently on work term at DT Martin Machine Shop.</p>
   <div class="grid">
     <div class="card">
-      <h3>🔧 Technical Skills</h3>
+      <h3>Technical Skills</h3>
       <p>• Engineering Drawing & GD&T<br>
          • Fusion 360 CAM & Toolpath Optimization<br>
          • 3D Scanning & Reverse Engineering<br>
@@ -398,7 +398,7 @@ footer{
          • Research & Trial-Error Optimization</p>
     </div>
     <div class="card">
-      <h3>🛠️ Work Experience</h3>
+      <h3>Work Experience</h3>
       <p><strong>DT Martin Machine Shop</strong><br>
          • Creating detailed engineering drawings<br>
          • Developing CAM toolpaths in Fusion 360<br>
@@ -406,7 +406,7 @@ footer{
          • Research & trial-error process improvement</p>
     </div>
     <div class="card">
-      <h3>📚 Education</h3>
+      <h3>Education</h3>
       <p><strong>Memorial University of Newfoundland</strong><br>
          Bachelor of Engineering - Mechanical<br>
          Second Year | Expected 2028<br>
@@ -418,7 +418,7 @@ footer{
 
 <section id="projects">
   <h2>Featured Projects</h2>
-  <p class="sub">Real-world engineering work and technical projects — 6 projects ready</p>
+  <p class="sub">Real-world engineering work and technical projects</p>
   <div class="grid" id="projectsGrid">
     <!-- Projects will be dynamically generated via JavaScript -->
   </div>
@@ -430,27 +430,27 @@ footer{
     <div class="card">
       <h3>Contact Info</h3>
       <p style="margin:20px 0;"><strong>Email:</strong><br>
-         <a href="mailto:bpatrickk@mun.ca" style="color:var(--accent);">bpatrickk@mun.ca</a></p>
+         <a href="mailto:YOUR_EMAIL_HERE" style="color:var(--accent);">YOUR_EMAIL_HERE</a></p>
       <p style="margin:20px 0;"><strong>Location:</strong><br>
          St. John's, Newfoundland, Canada</p>
       
       <div class="social-links">
-        <a href="#" id="linkedinLink" class="social-link" target="www.linkedin.com/in/blake-king-1a2881383" rel="noopener noreferrer">
+        <a href="YOUR_LINKEDIN_URL_HERE" id="linkedinLink" class="social-link" target="_blank" rel="noopener noreferrer">
           <i class="fab fa-linkedin"></i>
           <span>LinkedIn Profile</span>
         </a>
-        <a href="#" id="githubLink" class="social-link" target="_blank" rel="noopener noreferrer">
+        <a href="YOUR_GITHUB_URL_HERE" id="githubLink" class="social-link" target="_blank" rel="noopener noreferrer">
           <i class="fab fa-github"></i>
           <span>GitHub Portfolio</span>
         </a>
-        <a href="#" id="portfolioLink" class="social-link" target="_blank" rel="noopener noreferrer">
+        <a href="YOUR_PORTFOLIO_URL_HERE" id="portfolioLink" class="social-link" target="_blank" rel="noopener noreferrer">
           <i class="fas fa-globe"></i>
           <span>Personal Website</span>
         </a>
       </div>
     </div>
     <div class="card">
-      <h3>💬 Send a Message</h3>
+      <h3>Send a Message</h3>
       <form id="contactForm" onsubmit="return false;">
         <input type="text" id="contactName" placeholder="Your name" required>
         <input type="email" id="contactEmail" placeholder="Your email" required>
@@ -471,18 +471,25 @@ footer{
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
 <script>
-// CONFIGURATION - EDIT THESE LINKS
-const CONFIG = {
-  linkedinUrl: 'https://www.linkedin.com/in/yourusername/', // CHANGE THIS
-  githubUrl: 'https://github.com/yourusername/', // CHANGE THIS
-  portfolioUrl: 'https://yourportfolio.com/', // CHANGE THIS
-  emailRecipient: 'bking@mun.ca' // CHANGE THIS to your email
-};
+// ============================================
+// EDIT YOUR INFORMATION HERE - ONLY CHANGE THESE 4 LINES
+// ============================================
+const YOUR_EMAIL = "bpatrickk@mun.ca";                    // Change to your email
+const YOUR_LINKEDIN_URL = "www.linkedin.com/in/blake-king-1a2881383";  // Change to your LinkedIn URL
+           // Change to your GitHub URL
+const YOUR_PORTFOLIO_URL = "https://github.com/blakeking445-ui.github.io";                 // Change to your portfolio website URL
+// ============================================
+// DO NOT EDIT ANYTHING BELOW THIS LINE (unless you know what you're doing)
+// ============================================
 
 // Apply configuration
-document.getElementById('linkedinLink').href = CONFIG.linkedinUrl;
-document.getElementById('githubLink').href = CONFIG.githubUrl;
-document.getElementById('portfolioLink').href = CONFIG.portfolioUrl;
+document.getElementById('linkedinLink').href = YOUR_LINKEDIN_URL;
+document.getElementById('githubLink').href = YOUR_GITHUB_URL;
+document.getElementById('portfolioLink').href = YOUR_PORTFOLIO_URL;
+
+// Update email display
+document.querySelector('a[href^="mailto:"]').href = `mailto:${YOUR_EMAIL}`;
+document.querySelector('a[href^="mailto:"]').textContent = YOUR_EMAIL;
 
 // 1. Cursor Glow Effect
 const glow = document.getElementById('glow');
@@ -491,7 +498,6 @@ document.addEventListener('mousemove', (e) => {
   glow.style.top = e.clientY + 'px';
 });
 
-// Hide glow when mouse leaves window
 document.addEventListener('mouseleave', () => {
   glow.style.opacity = '0';
 });
@@ -512,7 +518,6 @@ const video = document.getElementById('bgVideo');
 const canvas = document.getElementById('bgCanvas');
 const ctx = canvas.getContext('2d');
 
-// Resize canvas
 function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -520,7 +525,6 @@ function resizeCanvas() {
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
-// Animated background particles (fallback)
 let particles = [];
 for(let i = 0; i < 100; i++) {
   particles.push({
@@ -554,29 +558,26 @@ function animateParticles() {
 }
 animateParticles();
 
-// Video event handlers with better debugging
 video.addEventListener('loadeddata', () => {
-  console.log('✅ Video loaded successfully');
+  console.log('Video loaded successfully');
   video.style.display = 'block';
   canvas.style.opacity = '0';
   video.play().catch(err => console.log('Play error:', err));
 });
 
 video.addEventListener('canplay', () => {
-  console.log('✅ Video can play');
+  console.log('Video can play');
   video.play().catch(err => console.log('Autoplay prevented:', err));
 });
 
 video.addEventListener('error', (e) => {
-  console.log('❌ Video error:', e);
+  console.log('Video error:', e);
   video.style.display = 'none';
   canvas.style.opacity = '1';
 });
 
-// Force video load attempt
 video.load();
 
-// Try to play video immediately
 setTimeout(() => {
   video.play().catch(err => {
     console.log('Initial play prevented:', err);
@@ -585,7 +586,7 @@ setTimeout(() => {
   });
 }, 100);
 
-// 4. Email sending function (using mailto as fallback)
+// 4. Email sending function
 function sendEmail() {
   const name = document.getElementById('contactName').value;
   const email = document.getElementById('contactEmail').value;
@@ -598,66 +599,62 @@ function sendEmail() {
     return;
   }
   
-  // Create mailto link
   const subject = `Portfolio Contact from ${name}`;
   const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
-  const mailtoLink = `mailto:${CONFIG.emailRecipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const mailtoLink = `mailto:${YOUR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   
-  // Open email client
   window.location.href = mailtoLink;
   
-  // Show success message
   statusDiv.className = 'form-status success';
   statusDiv.textContent = 'Opening your email client... If nothing happens, please email me directly.';
   
-  // Clear form
   document.getElementById('contactName').value = '';
   document.getElementById('contactEmail').value = '';
   document.getElementById('contactMessage').value = '';
 }
 
-// 5. Projects Data - 6 Projects with placeholders
+// 5. Projects Data - 6 Projects
 const projectsData = [
   {
-    title: '🔄 3D Scanning Workflow',
+    title: '3D Scanning Workflow',
     description: 'Integrated 3D scanning into DT Martin\'s shop workflow for reverse engineering legacy parts and quality inspection.',
     tags: ['3D Scanning', 'Reverse Engineering', 'Quality Control'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E📸 3D Scan Preview%3C/text%3E%3C/svg%3E',
-    gif: null // Add GIF URL here
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E3D Scan Preview%3C/text%3E%3C/svg%3E',
+    gif: null
   },
   {
-    title: '⚙️ Fusion 360 CAM Optimization',
+    title: 'Fusion 360 CAM Optimization',
     description: 'Optimized CNC toolpaths using adaptive clearing and 3D contouring, reducing cycle times by 15-20% on complex parts.',
     tags: ['Fusion 360', 'CAM', 'CNC', 'Toolpath'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E🎥 CAM Simulation%3C/text%3E%3C/svg%3E',
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3ECAM Simulation%3C/text%3E%3C/svg%3E',
     gif: null
   },
   {
-    title: '📐 Engineering Drawing Package',
+    title: 'Engineering Drawing Package',
     description: 'Created detailed fabrication drawings with GD&T for machined components, improving shop floor communication.',
     tags: ['GD&T', 'Technical Drawing', 'AutoCAD', 'Inventor'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E📏 Drawing Example%3C/text%3E%3C/svg%3E',
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3EDrawing Example%3C/text%3E%3C/svg%3E',
     gif: null
   },
   {
-    title: '🔧 Fixture Design Project',
+    title: 'Fixture Design Project',
     description: 'Designed and modeled custom workholding fixtures for complex machining operations at DT Martin.',
     tags: ['Fixture Design', 'SolidWorks', 'Workholding'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E🔩 Fixture Design%3C/text%3E%3C/svg%3E',
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3EFixture Design%3C/text%3E%3C/svg%3E',
     gif: null
   },
   {
-    title: '📊 Tolerance Analysis Study',
+    title: 'Tolerance Analysis Study',
     description: 'Conducted tolerance stack-up analysis on critical assemblies to ensure proper fit and function.',
     tags: ['Tolerance Analysis', 'GD&T', 'Quality'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E📊 Tolerance Study%3C/text%3E%3C/svg%3E',
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3ETolerance Study%3C/text%3E%3C/svg%3E',
     gif: null
   },
   {
-    title: '🖨️ 3D Printing for Prototyping',
+    title: '3D Printing for Prototyping',
     description: 'Used 3D printing for rapid prototyping of fixtures and parts before final machining operations.',
     tags: ['3D Printing', 'Prototyping', 'Rapid Manufacturing'],
-    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E🖨️ 3D Print Example%3C/text%3E%3C/svg%3E',
+    image: 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'200\' viewBox=\'0 0 400 200\'%3E%3Crect width=\'400\' height=\'200\' fill=\'%231a2a4a\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' font-size=\'14\' fill=\'%2300aaff\' text-anchor=\'middle\' dy=\'.3em\'%3E3D Print Example%3C/text%3E%3C/svg%3E',
     gif: null
   }
 ];
@@ -683,14 +680,14 @@ projectsData.forEach((project, index) => {
     </div>
     
     <div class="media-controls">
-      <button class="media-btn active" onclick="switchMedia(${index}, 'image')">📷 Image</button>
-      <button class="media-btn" onclick="switchMedia(${index}, 'gif')">🎬 GIF</button>
-      <button class="media-btn" onclick="toggle3DViewer(${index})">🧊 3D View</button>
+      <button class="media-btn active" onclick="switchMedia(${index}, 'image')">Image</button>
+      <button class="media-btn" onclick="switchMedia(${index}, 'gif')">GIF</button>
+      <button class="media-btn" onclick="toggle3DViewer(${index})">3D View</button>
     </div>
     
     <div class="viewer" id="viewer${index}"></div>
     <p style="font-size: 0.8rem; color: var(--muted); margin-top: 8px;">
-      <i class="fas fa-mouse"></i> Click & drag to rotate 3D • Scroll to zoom
+      <i class="fas fa-mouse"></i> Click and drag to rotate 3D • Scroll to zoom
     </p>
   `;
   
@@ -704,7 +701,6 @@ function switchMedia(projectIndex, mediaType) {
   const container = document.getElementById(`media-container-${projectIndex}`);
   const buttons = container.parentElement.querySelectorAll('.media-btn');
   
-  // Update button states
   buttons.forEach(btn => btn.classList.remove('active'));
   if (mediaType === 'image') {
     buttons[0].classList.add('active');
@@ -715,11 +711,10 @@ function switchMedia(projectIndex, mediaType) {
     imgElement.style.display = 'none';
     if (gifElement) {
       gifElement.style.display = 'block';
-      // If GIF URL exists, set it (you can add GIF URLs to projectsData)
       if (projectsData[projectIndex].gif) {
         gifElement.src = projectsData[projectIndex].gif;
       } else {
-        gifElement.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%231a2a4a'/%3E%3Ctext x='50%25' y='50%25' font-size='14' fill='%2300aaff' text-anchor='middle' dy='.3em'%3E🎬 Add GIF URL in projectsData%3C/text%3E%3C/svg%3E`;
+        gifElement.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%231a2a4a'/%3E%3Ctext x='50%25' y='50%25' font-size='14' fill='%2300aaff' text-anchor='middle' dy='.3em'%3EAdd GIF URL in projectsData%3C/text%3E%3C/svg%3E`;
       }
     }
   }
@@ -752,7 +747,6 @@ function initThreeViewer(containerId, projectIndex) {
   controls.enableZoom = true;
   controls.enablePan = true;
   
-  // Lighting
   const ambientLight = new THREE.AmbientLight(0x404060);
   scene.add(ambientLight);
   
@@ -764,11 +758,9 @@ function initThreeViewer(containerId, projectIndex) {
   dirLight2.position.set(-2, 1, 3);
   scene.add(dirLight2);
   
-  // Grid helper
   const gridHelper = new THREE.GridHelper(10, 20, 0x00aaff, 0x334466);
   scene.add(gridHelper);
   
-  // Different geometry based on project
   let mesh;
   const geometries = [
     new THREE.TorusKnotGeometry(1, 0.3, 100, 16),
@@ -790,7 +782,6 @@ function initThreeViewer(containerId, projectIndex) {
   mesh = new THREE.Mesh(geometries[projectIndex % geometries.length], material);
   scene.add(mesh);
   
-  // Wireframe overlay
   const wireframeMat = new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true, transparent: true, opacity: 0.15 });
   const wireframeMesh = new THREE.Mesh(mesh.geometry, wireframeMat);
   mesh.add(wireframeMesh);
@@ -832,15 +823,9 @@ function toggle3DViewer(projectIndex) {
   }
 }
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('✅ Portfolio loaded - Blake King');
-  console.log('📝 Edit CONFIG object to update your links and email');
+  console.log('Portfolio loaded - Blake King');
 });
-
-// Video troubleshooting helper
-console.log('🎥 Video debugging: Check if background.mp4 exists in the same folder');
-console.log('📁 Current directory: ' + window.location.href);
 </script>
 
 </body>
