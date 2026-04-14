@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blake King | Engineering Portfolio</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0a0a0a;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    /* Cursor Glow */
+    .cursor-glow {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(0,150,255,0.4) 0%, transparent 70%);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+    }
+
+    header {
+        text-align: center;
+        padding: 60px 20px;
+        z-index: 1;
+        position: relative;
+    }
+
+    section {
+        padding: 60px 20px;
+        max-width: 1000px;
+        margin: auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    h1, h2 {
+        color: #00aaff;
+    }
+
+    .card {
+        background: #111;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,170,255,0.2);
+    }
+
+    .projects img {
+        width: 100%;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+
+    button {
+        padding: 10px 15px;
+        background: #00aaff;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    canvas {
+        width: 100%;
+        height: 400px;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="cursor-glow" id="glow"></div>
+
+<header>
+    <h1>Blake King</h1>
+    <p>Mechanical Engineering Student | Memorial University</p>
+</header>
+
+<section>
+    <h2>About Me</h2>
+    <div class="card">
+        <p>
+            I am a second-year Mechanical Engineering student at Memorial University of Newfoundland.
+            Currently completing my first work term at a machine shop, where I focus on engineering drawings,
+            Fusion CAM toolpaths, 3D scanning, and hands-on problem solving through trial and error.
+        </p>
+    </div>
+</section>
+
+<section>
+    <h2>Skills</h2>
+    <div class="card">
+        <ul>
+            <li>Fusion 360 (CAD & CAM)</li>
+            <li>Engineering Drawings</li>
+            <li>3D Scanning & Reverse Engineering</li>
+            <li>Machining Processes</li>
+            <li>Problem Solving & Prototyping</li>
+        </ul>
+    </div>
+</section>
+
+<section class="projects">
+    <h2>Projects</h2>
+
+    <div class="card">
+        <h3>Project Title (Replace Me)</h3>
+        <p>Short description of your project.</p>
+
+        <!-- IMAGE / GIF -->
+        <img src="placeholder.jpg" alt="Project Image">
+
+        <!-- 3D MODEL BUTTON -->
+        <button onclick="toggleModel()">Toggle 3D Model</button>
+        <canvas id="viewer"></canvas>
+    </div>
+
+</section>
+
+<section>
+    <h2>Contact</h2>
+    <div class="card">
+        <p>Email: your@email.com</p>
+        <p>LinkedIn: add later</p>
+    </div>
+</section>
+
+<!-- Three.js -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+
+<script>
+/* Cursor Glow */
+const glow = document.getElementById('glow');
+document.addEventListener('mousemove', e => {
+    glow.style.left = e.clientX + 'px';
+    glow.style.top = e.clientY + 'px';
+});
+
+/* 3D Viewer */
+let scene, camera, renderer, model;
+let visible = false;
+
+function init3D() {
+    const canvas = document.getElementById('viewer');
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 400, 0.1, 1000);
+
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    renderer.setSize(canvas.clientWidth, 400);
+
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+    scene.add(light);
+
+    const loader = new THREE.GLTFLoader();
+    loader.load('model.glb', function(gltf) {
+        model = gltf.scene;
+        scene.add(model);
+        model.scale.set(2,2,2);
+    });
+
+    camera.position.z = 5;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        if (model) model.rotation.y += 0.01;
+        renderer.render(scene, camera);
+    }
+    animate();
+}
+
+function toggleModel() {
+    const canvas = document.getElementById('viewer');
+
+    visible = !visible;
+    canvas.style.display = visible ? 'block' : 'none';
+
+    if (visible && !renderer) {
+        init3D();
+    }
+}
+</script>
+
+</body>
+</html>
