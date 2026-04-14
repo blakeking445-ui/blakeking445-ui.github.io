@@ -1,205 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blake King | Mechanical Engineering Portfolio</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
-    
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --text-color: #f8fafc;
-            --accent-color: #38bdf8;
-            --card-bg: #1e293b;
-        }
+  <meta charset="UTF-8">
+  <title>Blake King | Engineering Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            line-height: 1.6;
-        }
+  <!-- Basic Styling -->
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+    }
 
-        nav {
-            position: fixed;
-            width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 1rem;
-            text-align: center;
-            z-index: 1000;
-        }
+    header {
+      background: #020617;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #334155;
+    }
 
-        nav a {
-            color: var(--text-color);
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
 
-        nav a:hover { color: var(--accent-color); }
+    nav a {
+      margin: 0 15px;
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-        section { padding: 80px 20px; max-width: 1000px; margin: auto; }
+    section {
+      padding: 60px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
 
-        .hero { text-align: center; padding: 120px 20px; background: linear-gradient(to bottom, #1e293b, #0f172a); }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+    h2 {
+      border-bottom: 2px solid #38bdf8;
+      padding-bottom: 10px;
+      margin-bottom: 30px;
+    }
 
-        .card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--accent-color);
-        }
+    .card {
+      background: #020617;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+    }
 
-        /* 3D Viewer Container */
-        #canvas-container {
-            width: 100%;
-            height: 400px;
-            background: #000;
-            border-radius: 8px;
-            margin: 20px 0;
-            position: relative;
-        }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
 
-        .toggle-btn {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-weight: bold;
-        }
+    img, video {
+      width: 100%;
+      border-radius: 8px;
+    }
 
-        footer { text-align: center; padding: 40px; font-size: 0.9rem; opacity: 0.7; }
+    button {
+      padding: 10px 15px;
+      background: #38bdf8;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-        img, video { width: 100%; border-radius: 5px; margin-top: 10px; }
-    </style>
+    footer {
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #334155;
+      margin-top: 40px;
+    }
+
+    canvas {
+      width: 100%;
+      height: 300px;
+      background: #000;
+      border-radius: 10px;
+    }
+  </style>
 </head>
+
 <body>
 
-<nav>
+<header>
+  <h1>Blake King</h1>
+  <p>Mechanical Engineering Student | Portfolio</p>
+  <nav>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
-</nav>
+  </nav>
+</header>
 
-<section class="hero">
-    <h1>Blake King</h1>
-    <p>Mechanical Engineering Student | Memorial University of Newfoundland</p>
-    <p>Currently on Work Term @ DT Martin</p>
-</section>
-
+<!-- ABOUT -->
 <section id="about">
-    <h2>About Me</h2>
-    <div class="card">
-        <p>I am a second-year Mechanical Engineering student currently gaining hands-on experience in a high-precision machine shop environment. My work focuses on bridging the gap between physical parts and digital design through 3D scanning, CAD refinement, and CAM programming.</p>
-    </div>
+  <h2>About Me</h2>
+  <div class="card">
+    <p>
+      I am Blake King, a second-year Mechanical Engineering student at Memorial University of Newfoundland.
+      I am currently completing my first work term at a machine shop where I focus on engineering drawings,
+      CAM toolpaths using Fusion, 3D scanning, and hands-on problem solving through research and iteration.
+    </p>
+  </div>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
-    <h2>Technical Skills</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>Design & Manufacturing</h3>
-            <ul>
-                <li>Engineering Drawings (GD&T)</li>
-                <li>Fusion 360 CAM / Tool Pathing</li>
-                <li>CNC Workflow Optimization</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3>Modern Tech</h3>
-            <ul>
-                <li>3D Scanning & Mesh Processing</li>
-                <li>Reverse Engineering</li>
-                <li>Rapid Prototyping</li>
-            </ul>
-        </div>
-    </div>
+  <h2>Skills</h2>
+  <div class="card">
+    <ul>
+      <li>CAD Modeling (Fusion 360)</li>
+      <li>CAM Toolpath Programming</li>
+      <li>Engineering Drawings & GD&T</li>
+      <li>3D Scanning & Reverse Engineering</li>
+      <li>Problem Solving & Iterative Design</li>
+    </ul>
+  </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
-    <h2>Projects & Work Gallery</h2>
-    <div class="card">
-        <h3>3D Scanning & Machine Shop Work</h3>
-        <p>This section showcases 3D scan data converted into workable toolpaths.</p>
-        
-        <button class="toggle-btn" onclick="toggle3D()">Toggle 3D View On/Off</button>
-        
-        <div id="canvas-container" style="display:none;">
-            </div>
+  <h2>Projects</h2>
 
-        <img src="https://via.placeholder.com/600x300?text=Insert+Process+GIF+Here" alt="CAM Workflow GIF">
-        <p><i>Caption: Example of a toolpath simulation generated in Fusion 360.</i></p>
+  <div class="projects-grid">
+
+    <!-- PROJECT 1 -->
+    <div class="card">
+      <h3>Project Title</h3>
+
+      <!-- IMAGE PLACEHOLDER -->
+      <img src="placeholder.jpg" alt="Project Image">
+
+      <!-- GIF PLACEHOLDER -->
+      <!-- Replace with .gif -->
+      <!-- <img src="project.gif"> -->
+
+      <p>
+        Short description of your project. Explain what you designed,
+        how you manufactured it, and any challenges.
+      </p>
+
+      <button onclick="toggleModel('viewer1')">Toggle 3D Model</button>
+      <canvas id="viewer1"></canvas>
     </div>
+
+    <!-- PROJECT 2 -->
+    <div class="card">
+      <h3>Another Project</h3>
+
+      <img src="placeholder.jpg">
+
+      <p>
+        Description of another project. You can duplicate this card
+        as many times as needed.
+      </p>
+
+      <button onclick="toggleModel('viewer2')">Toggle 3D Model</button>
+      <canvas id="viewer2"></canvas>
+    </div>
+
+  </div>
 </section>
 
+<!-- CONTACT -->
 <section id="contact">
-    <h2>Contact</h2>
-    <div class="card">
-        <p>Email: <a href="mailto:yourname@mun.ca" style="color: var(--accent-color);">bking@mun.ca</a></p>
-        <p>LinkedIn: <a href="#" style="color: var(--accent-color);">linkedin.com/in/blakeking</a></p>
-    </div>
+  <h2>Contact</h2>
+  <div class="card">
+    <p>Email: your.email@example.com</p>
+    <p>LinkedIn: (add later)</p>
+    <p>GitHub: (add later)</p>
+  </div>
 </section>
 
 <footer>
-    &copy; 2026 Blake King. Built for Engineering.
+  <p>© 2026 Blake King</p>
 </footer>
 
+<!-- THREE.JS FOR 3D -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+
 <script>
-    let scene, camera, renderer, controls, mesh;
-    let isInitialized = false;
+  const viewers = {};
 
-    function init3D() {
-        const container = document.getElementById('canvas-container');
-        scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-        
-        renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        container.appendChild(renderer.domElement);
+  function initViewer(id) {
+    const canvas = document.getElementById(id);
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(1, 1, 1).underline;
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / 300, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas });
 
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        
-        // Placeholder Geometry (Replace this with your STL Loader)
-        const geometry = new THREE.BoxGeometry(2, 2, 2);
-        const material = new THREE.MeshPhongMaterial({ color: 0x38bdf8, wireframe: true });
-        mesh = new THREE.Mesh(geometry, material);
-        scene.add(mesh);
+    renderer.setSize(canvas.clientWidth, 300);
 
-        camera.position.z = 5;
-        isInitialized = true;
-        animate();
-    }
+    const light = new THREE.HemisphereLight(0xffffff, 0x444444);
+    scene.add(light);
+
+    const loader = new THREE.GLTFLoader();
+
+    loader.load('model.glb', function (gltf) {
+      const model = gltf.scene;
+      scene.add(model);
+      model.rotation.y = Math.PI;
+    });
+
+    camera.position.z = 2;
 
     function animate() {
-        requestAnimationFrame(animate);
-        mesh.rotation.y += 0.01;
-        controls.update();
-        renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+      scene.rotation.y += 0.005;
+      renderer.render(scene, camera);
     }
 
-    function toggle3D() {
-        const container = document.getElementById('canvas-container');
-        if (container.style.display === "none") {
-            container.style.display = "block";
-            if (!isInitialized) init3D();
-        } else {
-            container.style.display = "none";
-        }
+    animate();
+
+    viewers[id] = renderer;
+  }
+
+  function toggleModel(id) {
+    if (!viewers[id]) {
+      initViewer(id);
+    } else {
+      const canvas = document.getElementById(id);
+      canvas.style.display = canvas.style.display === 'none' ? 'block' : 'none';
     }
+  }
 </script>
 
 </body>
