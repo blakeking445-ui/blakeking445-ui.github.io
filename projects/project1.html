@@ -136,6 +136,10 @@ document.getElementById("viewer").appendChild(renderer.domElement);
 
 /* CONTROLS */
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableZoom = true;
+controls.enablePan = true;
+
+renderer.domElement.style.touchAction = "none"; 
 controls.enableDamping = true;
 
 /* LIGHTS */
