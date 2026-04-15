@@ -59,6 +59,18 @@
       margin: 10px 0;
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
+    .image-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.image-row img {
+  width: 48%;
+  height: 220px;          /* controls size */
+  object-fit: cover;      /* keeps them clean */
+  border-radius: 12px;
+}
 
     /* 3D VIEWER container — exactly as before */
     #viewer {
@@ -128,7 +140,7 @@
 <div class="container">
 
   <!-- TITLE (same as original) -->
-  <h1>Project 1 · Reverse engineering</h1>
+  <h1> Reverse Engineered Fuel Door Mount  </h1>
 
   <!-- DESCRIPTION -->
   <p>
@@ -138,8 +150,10 @@
 
   <!-- IMAGES (keeping same references) -->
   <h2> Final product images</h2>
-  <img src="project11.jpg" alt="Project shot 1" onerror="this.style.background='#1e293b'; this.style.minHeight='200px'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.setAttribute('data-placeholder', 'img missing');">
-  <img src="project12.jpg" alt="Project shot 2" onerror="this.style.background='#1e293b'; this.style.minHeight='200px';">
+ <div class="image-row">
+  <img src="project11.jpg" alt="Project shot 1">
+  <img src="project12.jpg" alt="Project shot 2">
+</div>
 
   <!-- 3D SECTION — using the WORKING renderer logic -->
   <h2 style="margin-top: 36px;"> 3D comparison · CAD vs scan</h2>
