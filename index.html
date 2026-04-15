@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blake King | Mechanical Engineering Portfolio</title>
@@ -111,7 +112,78 @@ textarea{ min-height:120px; resize:vertical }
 footer{ text-align:center; padding:30px 10px; color:var(--muted) }
 
 @media (max-width: 800px){
-  .contact{ grid-template-columns: 1fr }
+  .contact{ grid-template-columns: 1fr } 
+}
+
+  .contact-links{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:10px;
+}
+
+.contact-btn{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  border-radius:10px;
+  text-decoration:none;
+  color:var(--text);
+  border:1px solid rgba(0,170,255,0.3);
+  background: linear-gradient(180deg, rgba(0,170,255,0.15), rgba(0,170,255,0.05));
+  transition: all 0.2s ease;
+  font-weight:500;
+}
+
+.contact-btn i{
+  font-size:1.2rem;
+  color:var(--accent);
+}
+
+.contact-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0,170,255,0.4);
+}
+
+  .contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:#0b1220;
+  color:var(--text);
+  font-size:0.95rem;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+  outline:none;
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(0,170,255,0.3);
+}
+
+  .success-message{
+  opacity:0;
+  margin-top:12px;
+  padding:12px;
+  border-radius:10px;
+  background: rgba(0,170,255,0.15);
+  border:1px solid rgba(0,170,255,0.4);
+  color:#bfe9ff;
+  text-align:center;
+  transition: opacity 0.3s ease;
+}
+
+.success-message.show{
+  opacity:1;
 }
 </style>
 </head>
@@ -228,27 +300,44 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   <h2>Contact</h2>
   <div class="contact">
     <div class="card">
-      <h3>Get in touch</h3>
-      <p class="sub">Swap these with your real info.</p>
-      <p>Email: your@email.com</p>
-      <p>LinkedIn: your profile</p>
-    </div>
+  <h3>Get in touch</h3>
+  <p class="sub">Reach out or connect with me</p>
+
+  <div class="contact-links">
+
+    <!-- EMAIL -->
+    <a href="mailto:bpatrickk@mun.ca" class="contact-btn">
+      <i class="fas fa-envelope"></i>
+      <span>Email Me</span>
+    </a>
+
+    <!-- LINKEDIN -->
+    <a href="www.linkedin.com/in/blake-king-1a2881383" target="_blank" class="contact-btn">
+      <i class="fab fa-linkedin"></i>
+      <span>LinkedIn</span>
+    </a>
+
+    <!-- WEBSITE -->
+    <a href="https://blakeking445-ui.github.io/" target="_blank" class="contact-btn">
+      <i class="fas fa-globe"></i>
+      <span>My Website</span>
+    </a>
+
+  </div>
+</div>
    <!-- modify this form HTML and place wherever you want your form -->
-<form
-  action="https://formspree.io/f/mqeweeqz"
-  method="POST"
->
-  <label>
-    Your email:
-    <input type="email" name="email">
-  </label>
-  <label>
-    Your message:
-    <textarea name="message"></textarea>
-  </label>
-  <!-- your other form fields go here -->
-  <button type="submit">Send</button>
+<form id="contactForm" action="https://formspree.io/f/mqeweeqz" method="POST" class="contact-form">
+
+  <input type="email" name="email" placeholder="Your email" required>
+
+  <textarea name="message" placeholder="Your message" required></textarea>
+
+  <button class="btn" type="submit">Send Message →</button>
+
 </form>
+
+    <div id="successMessage" class="success-message">
+  ✅ Message sent successfully!
   </div>
 </section>
 
@@ -343,6 +432,39 @@ function toggle(i){
     if(!renderers[i]) renderers[i] = init('c'+i);
   }
 }
+
+  const form = document.getElementById('contactForm');
+const successMessage = document.getElementById('successMessage');
+
+form.addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const data = new FormData(form);
+
+  try{
+    const response = await fetch(form.action, {
+      method: "POST",
+      body: data,
+      headers: {
+        'Accept': 'application/json'
+      }
+    });
+
+    if(response.ok){
+      successMessage.classList.add('show');
+      form.reset();
+
+      setTimeout(()=>{
+        successMessage.classList.remove('show');
+      }, 4000);
+    } else {
+      alert("Something went wrong. Try again.");
+    }
+
+  } catch(error){
+    alert("Error sending message.");
+  }
+});
 </script>
 
 </body>
