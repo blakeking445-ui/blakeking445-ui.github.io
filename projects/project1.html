@@ -129,7 +129,7 @@ let cadModel = null;
 let scanModel = null;
 
 /* LOAD CAD */
-loader.load("../baseparametric.glb", (gltf) => {
+loader.load("baseparametric.glb", (gltf) => {
   cadModel = gltf.scene;
 
   cadModel.traverse((m)=>{
@@ -144,7 +144,7 @@ loader.load("../baseparametric.glb", (gltf) => {
 });
 
 /* LOAD SCAN */
-loader.load("../scan.glb", (gltf) => {
+loader.load("basescan.glb", (gltf) => {
   scanModel = gltf.scene;
 
   scanModel.traverse((m)=>{
