@@ -233,13 +233,22 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
       <p>Email: your@email.com</p>
       <p>LinkedIn: your profile</p>
     </div>
-    <div class="card">
-      <h3>Quick message</h3>
-      <input placeholder="Your name">
-      <input placeholder="Your email">
-      <textarea placeholder="Your message"></textarea>
-      <button class="btn">Send</button>
-    </div>
+   <!-- modify this form HTML and place wherever you want your form -->
+<form
+  action="https://formspree.io/f/mqeweeqz"
+  method="POST"
+>
+  <label>
+    Your email:
+    <input type="email" name="email">
+  </label>
+  <label>
+    Your message:
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+  <button type="submit">Send</button>
+</form>
   </div>
 </section>
 
