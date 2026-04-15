@@ -170,20 +170,39 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   box-shadow: 0 0 10px rgba(0,170,255,0.3);
 }
 
-  .success-message{
+.success-message{
   opacity:0;
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  background: rgba(0,170,255,0.15);
-  border:1px solid rgba(0,170,255,0.4);
-  color:#bfe9ff;
-  text-align:center;
-  transition: opacity 0.3s ease;
+  transform: translateY(10px) scale(0.95);
+  margin-top:16px;
+
+  padding:14px;
+  border-radius:12px;
+
+  background: rgba(34,197,94,0.15);
+  border:1px solid rgba(34,197,94,0.5);
+  color:#bbf7d0;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;  /* centers content */
+  gap:10px;
+
+  width:100%;              /* fills form width */
+  max-width:400px;         /* keeps it clean */
+  margin-left:auto;        /* centers block */
+  margin-right:auto;
+
+  transition: all 0.4s ease;
 }
 
 .success-message.show{
   opacity:1;
+}
+  .btn.success{
+  background: rgba(34,197,94,0.2);
+  border-color: rgba(34,197,94,0.6);
+  color:#bbf7d0;
+  box-shadow: 0 0 20px rgba(34,197,94,0.4);
 }
 </style>
 </head>
@@ -312,7 +331,7 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
     </a>
 
     <!-- LINKEDIN -->
-    <a href="www.linkedin.com/in/blake-king-1a2881383" target="_blank" class="contact-btn">
+    <a href="https://www.linkedin.com/in/blake-king-1a2881383" target="_blank" class="contact-btn">
       <i class="fab fa-linkedin"></i>
       <span>LinkedIn</span>
     </a>
@@ -332,13 +351,11 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
 
   <textarea name="message" placeholder="Your message" required></textarea>
 
-  <button class="btn" type="submit">Send Message →</button>
+  <button class="btn" type="submit" id="sendBtn">Send Message</button>
 
 </form>
 
-    <div id="successMessage" class="success-message">
-  ✅ Message sent successfully!
-  </div>
+  
 </section>
 
 <footer>
@@ -436,33 +453,51 @@ function toggle(i){
   const form = document.getElementById('contactForm');
 const successMessage = document.getElementById('successMessage');
 
+const form = document.getElementById('contactForm');
+const sendBtn = document.getElementById('sendBtn');
+
 form.addEventListener('submit', async function(e){
   e.preventDefault();
 
   const data = new FormData(form);
 
+  // Sending state
+  sendBtn.textContent = "Sending...";
+  sendBtn.disabled = true;
+
   try{
     const response = await fetch(form.action, {
       method: "POST",
       body: data,
-      headers: {
-        'Accept': 'application/json'
-      }
+      headers: { 'Accept': 'application/json' }
     });
 
     if(response.ok){
-      successMessage.classList.add('show');
+      // Success state
+      sendBtn.textContent = "Sent ✓";
+      sendBtn.classList.add('success');
       form.reset();
 
       setTimeout(()=>{
-        successMessage.classList.remove('show');
-      }, 4000);
+        sendBtn.textContent = "Send Message";
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('success');
+      }, 3000);
+
     } else {
-      alert("Something went wrong. Try again.");
+      sendBtn.textContent = "Error";
+      setTimeout(()=>{
+        sendBtn.textContent = "Send Message";
+        sendBtn.disabled = false;
+      }, 3000);
     }
 
   } catch(error){
-    alert("Error sending message.");
+    sendBtn.textContent = "Error";
+    setTimeout(()=>{
+      sendBtn.textContent = "Send Message";
+      sendBtn.disabled = false;
+    }, 3000);
   }
 });
 </script>
