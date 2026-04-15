@@ -218,7 +218,44 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   opacity:1;
   transform: translateY(0);
 }  
-  /*STYLE*/ 
+  .project-card {
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.project-image {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.project-image img {
+  width: 100%;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: 0.3s ease;
+  font-weight: 600;
+  color: #bfe9ff;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.1);
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+  /*STYLE---------------------------------------------------------------------------------------------------------------*/
   
 </style>
 </head>
@@ -279,14 +316,17 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   <p class="sub">Replace images, descriptions, and models with your work. Each card supports image/GIF + 3D viewer.</p>
   <div class="grid">
 
-    <div class="card">
-      <h3>Project 1</h3>
-      <p>Short description of what you built and why it matters.</p>
-      <img src="p1.jpg" alt="project 1">
-      <button class="btn" onclick="toggle(0)">Toggle 3D</button>
-      <canvas class="viewer" id="c0"></canvas>
+   <div class="card project-card" onclick="location.href='projects/project1.html'">
+  <div class="project-image">
+    <img src="p1.jpg" alt="project 1">
+    <div class="project-overlay">
+      <span>View Project →</span>
     </div>
+  </div>
 
+  <h3>Project 1</h3>
+  <p>Short description of what you built and why it matters.</p>
+</div>
     <div class="card">
       <h3>Project 2</h3>
       <p>Short description of what you built and why it matters.</p>
