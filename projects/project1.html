@@ -143,7 +143,7 @@
   <img src="../project1_2.jpg" alt="Project shot 2" onerror="this.style.background='#1e293b'; this.style.minHeight='200px';">
 
   <!-- 3D SECTION — using the WORKING renderer logic -->
-  <h2 style="margin-top: 36px;">3D comparison · CAD vs scan</h2>
+  <h2 style="margin-top: 36px;"> 3D comparison · CAD vs scan</h2>
 
   <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
     <button onclick="toggleCAD()">🔵 Toggle CAD (parametric)</button>
@@ -264,33 +264,7 @@
 
   // ----- LOAD SCAN (basescan.glb) -----
   loader.load(
-  "basescan.glb",
-
-  (gltf) => {
-    scanModel = gltf.scene;
-
-    scanModel.traverse((obj) => {
-      if (obj.isMesh) {
-        obj.material.transparent = true;
-        obj.material.opacity = 0.85;
-        obj.material.color.setHex(0xff8c00);
-        obj.material.roughness = 0.6;
-        obj.material.metalness = 0.05;
-      }
-    });
-
-    scene.add(scanModel);
-    console.log("✅ Scan model loaded");
-  },
-
-  (xhr) => {
-    console.log(`Scan loading: ${(xhr.loaded / xhr.total * 100).toFixed(1)}%`);
-  },
-
-  (err) => {
-    console.error("❌ Scan failed to load:", err);
-  }
-);
+    "basescan.glb",
     (gltf) => {
       scanModel = gltf.scene;
       
