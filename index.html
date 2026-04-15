@@ -204,6 +204,22 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   color:#bbf7d0;
   box-shadow: 0 0 20px rgba(34,197,94,0.4);
 }
+
+  .copy-popup{
+  opacity:0;
+  transform: translateY(5px);
+  font-size:0.85rem;
+  color:#bfe9ff;
+  margin-top:6px;
+  transition: all 0.3s ease;
+}
+
+.copy-popup.show{
+  opacity:1;
+  transform: translateY(0);
+}  
+  /*STYLE*/ 
+  
 </style>
 </head>
 
@@ -325,10 +341,12 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   <div class="contact-links">
 
     <!-- EMAIL -->
-    <a href="mailto:bpatrickk@mun.ca" class="contact-btn">
-      <i class="fas fa-envelope"></i>
-      <span>Email Me</span>
-    </a>
+    <div class="contact-btn" id="emailBtn">
+  <i class="fas fa-envelope"></i>
+  <span id="emailText">bpatrickk@mun.ca</span>
+</div>
+    <div id="copyPopup" class="copy-popup">Copied!</div>
+     
 
     <!-- LINKEDIN -->
     <a href="https://www.linkedin.com/in/blake-king-1a2881383" target="_blank" class="contact-btn">
@@ -502,6 +520,26 @@ document.addEventListener("DOMContentLoaded", function(){
   });
 
 });
+  const emailBtn = document.getElementById('emailBtn');
+const emailText = document.getElementById('emailText');
+const copyPopup = document.getElementById('copyPopup');
+
+if(emailBtn){
+  emailBtn.addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText(emailText.textContent);
+
+      copyPopup.classList.add('show');
+
+      setTimeout(()=>{
+        copyPopup.classList.remove('show');
+      }, 2000);
+
+    } catch(err){
+      alert("Failed to copy email");
+    }
+  });
+}
 </script>
 
 </body>
