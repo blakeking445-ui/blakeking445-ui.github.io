@@ -264,7 +264,33 @@
 
   // ----- LOAD SCAN (basescan.glb) -----
   loader.load(
-    "basescan.glb",
+  "basescan.glb",
+
+  (gltf) => {
+    scanModel = gltf.scene;
+
+    scanModel.traverse((obj) => {
+      if (obj.isMesh) {
+        obj.material.transparent = true;
+        obj.material.opacity = 0.85;
+        obj.material.color.setHex(0xff8c00);
+        obj.material.roughness = 0.6;
+        obj.material.metalness = 0.05;
+      }
+    });
+
+    scene.add(scanModel);
+    console.log("✅ Scan model loaded");
+  },
+
+  (xhr) => {
+    console.log(`Scan loading: ${(xhr.loaded / xhr.total * 100).toFixed(1)}%`);
+  },
+
+  (err) => {
+    console.error("❌ Scan failed to load:", err);
+  }
+);
     (gltf) => {
       scanModel = gltf.scene;
       
