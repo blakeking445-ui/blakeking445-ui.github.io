@@ -218,38 +218,45 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   opacity:1;
   transform: translateY(0);
 }  
-  .project-card {
-  cursor: pointer;
-  overflow: hidden;
-}
-
 .project-image {
   position: relative;
-  overflow: hidden;
   border-radius: 12px;
+  overflow: hidden;
+  height: 200px;
 }
 
 .project-image img {
   width: 100%;
-  display: block;
-  transition: transform 0.4s ease;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
+/* THIS is your translucent preview layer */
 .project-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 170, 255, 0.15); /* subtle blue tint */
+  backdrop-filter: blur(3px);          /* gives glass effect */
   display: flex;
   align-items: center;
   justify-content: center;
+
   opacity: 0;
-  transition: 0.3s ease;
-  font-weight: 600;
-  color: #bfe9ff;
+  transition: opacity 0.3s ease;
 }
 
+/* text inside overlay */
+.overlay-text {
+  color: #bfe9ff;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 10px rgba(0,170,255,0.6);
+}
+
+/* hover behavior */
 .project-card:hover .project-image img {
-  transform: scale(1.1);
+  transform: scale(1.06);
 }
 
 .project-card:hover .project-overlay {
@@ -316,17 +323,27 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   <p class="sub">Replace images, descriptions, and models with your work. Each card supports image/GIF + 3D viewer.</p>
   <div class="grid">
 
-   <div class="card project-card" onclick="location.href='projects/project1.html'">
+  <div class="card project-card" onclick="location.href='projects/project1.html'">
+
   <div class="project-image">
-    <img src="p1.jpg" alt="project 1">
+    <img src="project1.jpg" alt="Project 1">
+
     <div class="project-overlay">
-      <span>View Project →</span>
+      <div class="overlay-text">
+        Preview
+      </div>
     </div>
   </div>
 
   <h3>Project 1</h3>
   <p>Reverse-engineered and 3D-printed a replacement fuel door mount using a scan-based model in Fusion 360. 
-    Iteratively prototyped and refined to achieve proper fit and function on the vehicle.</p>
+    Iteratively prototyped and refined to achieve proper fit and function on the vehicle.
+</p>
+
+  <div class="project-footer">
+    <span>Click for more information →</span>
+  </div>
+
 </div>
     <div class="card">
       <h3>Project 2</h3>
