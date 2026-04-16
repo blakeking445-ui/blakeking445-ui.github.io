@@ -73,12 +73,22 @@
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.image-row img {
+  width: 48%;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .image-row img:hover {
-  transform: scale(1.035) translateY(-4px);
+  transform: scale(1.03);
+
+  /* layered soft glow — NOT a border */
   box-shadow:
-    0 16px 40px rgba(0,0,0,0.6),
-    0 0 0 2px rgba(59,130,246,0.6),
-    0 0 20px rgba(59,130,246,0.4);
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 30px rgba(59,130,246,0.25),
+    0 0 80px rgba(59,130,246,0.15);
 }
 
     /* 3D VIEWER container — exactly as before */
@@ -142,31 +152,44 @@
 
 
 
-    /* CURSOR GLOW */
+ /* CLEAN MODERN CURSOR GLOW */
 .cursor-glow {
   position: fixed;
   top: 0;
   left: 0;
-  width: 140px;
-  height: 140px;
+  width: 220px;
+  height: 220px;
   pointer-events: none;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, rgba(59,130,246,0.15) 40%, transparent 70%);
+
+  /* MUCH softer, more dispersed glow */
+  background: radial-gradient(circle,
+    rgba(59,130,246,0.18) 0%,
+    rgba(59,130,246,0.10) 25%,
+    rgba(59,130,246,0.05) 45%,
+    rgba(59,130,246,0.02) 60%,
+    transparent 75%
+  );
+
   transform: translate(-50%, -50%);
   z-index: 9999;
-  transition: transform 0.08s ease-out, width 0.2s ease, height 0.2s ease;
+
+  /* smoother movement */
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
 }
 
-/* Cursor grows when hovering interactive elements */
+
 body.hovering .cursor-glow {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, rgba(59,130,246,0.2) 40%, transparent 70%);
+  width: 260px;
+  height: 260px;
+
+  background: radial-gradient(circle,
+    rgba(59,130,246,0.22) 0%,
+    rgba(59,130,246,0.12) 30%,
+    rgba(59,130,246,0.05) 55%,
+    transparent 75%
+  );
 }
-
-
-
-
 
 
 
@@ -408,16 +431,38 @@ body.hovering .cursor-glow {
 
 
 
+
   const glow = document.querySelector(".cursor-glow");
 
+  let mouseX = 0;
+  let mouseY = 0;
+  let currentX = 0;
+  let currentY = 0;
+
   window.addEventListener("mousemove", (e) => {
-    glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 
-  // make cursor react on hover
-  const hoverTargets = document.querySelectorAll("a, button, img");
+  function animate() {
+    // smooth follow (lerp)
+    currentX += (mouseX - currentX) * 0.15;
+    currentY += (mouseY - currentY) * 0.15;
 
-  hoverTargets.forEach(el => {
+    glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+
+
+</script>
+
+  <script>
+  const targets = document.querySelectorAll("a, button, img");
+
+  targets.forEach(el => {
     el.addEventListener("mouseenter", () => {
       document.body.classList.add("hovering");
     });
@@ -425,7 +470,6 @@ body.hovering .cursor-glow {
       document.body.classList.remove("hovering");
     });
   });
-
 </script>
 
 <!-- small fallback: if images missing, keep layout clean -->
