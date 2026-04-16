@@ -171,9 +171,19 @@
   );
 
   transform: translate(-50%, -50%);
-}
-  /* smoother movement */
   transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+}
+
+body.hovering .cursor-glow {
+  width: 300px;
+  height: 300px;
+
+  background: radial-gradient(circle,
+    rgba(59,130,246,0.25) 0%,
+    rgba(59,130,246,0.12) 30%,
+    rgba(59,130,246,0.05) 55%,
+    transparent 75%
+  );
 }
 
 
@@ -430,33 +440,10 @@ body.hovering .cursor-glow {
 
 
 
-  const glow = document.querySelector(".cursor-glow");
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let currentX = 0;
-  let currentY = 0;
-
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animate() {
-    // smooth follow (lerp)
-    currentX += (mouseX - currentX) * 0.15;
-    currentY += (mouseY - currentY) * 0.15;
-
-    glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
+ 
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const glow = document.querySelector(".cursor-glow");
+
 
   let mouseX = 0;
   let mouseY = 0;
@@ -493,6 +480,46 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.remove("hovering");
     });
   });
+</script>
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const glow = document.querySelector(".cursor-glow");
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let currentX = 0;
+  let currentY = 0;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animateCursor() {
+    currentX += (mouseX - currentX) * 0.15;
+    currentY += (mouseY - currentY) * 0.15;
+
+    glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
+
+    requestAnimationFrame(animateCursor);
+  }
+
+  animateCursor();
+
+  // hover effect
+  const targets = document.querySelectorAll("a, button, img");
+
+  targets.forEach(el => {
+    el.addEventListener("mouseenter", () => {
+      document.body.classList.add("hovering");
+    });
+    el.addEventListener("mouseleave", () => {
+      document.body.classList.remove("hovering");
+    });
+  });
+});
 </script>
 
 <!-- small fallback: if images missing, keep layout clean -->
