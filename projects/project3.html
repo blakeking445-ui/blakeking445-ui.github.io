@@ -107,7 +107,7 @@
 
     .images-section img {
       width: 100%;
-      height: 235px;
+      height: 500px;
       object-fit: cover;
       border-radius: 12px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -125,7 +125,7 @@
 
     #viewer {
       width: 100%;
-      height: 500px;
+      height: 1000px;
       border-radius: 16px;
       background: #111;
       overflow: hidden;
@@ -315,7 +315,7 @@ This method improved inspection efficiency by replacing manual measurements with
 
   // ----- LOAD CAD -----
   loader.load(
-    "../oilerparametric.glb",
+    "../parametricfixedsmall.glb",
     (gltf) => {
       cadModel = gltf.scene;
       
@@ -339,7 +339,7 @@ This method improved inspection efficiency by replacing manual measurements with
 
   // ----- LOAD SCAN -----
   loader.load(
-    "../oilerscanfixed.glb",
+    "../oilerscanusethisone.glb",
     (gltf) => {
       scanModel = gltf.scene;
       
