@@ -67,9 +67,18 @@
 
 .image-row img {
   width: 48%;
-  height: 340px;   /* increased height */
+  height: 340px;
   object-fit: cover;
   border-radius: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.image-row img:hover {
+  transform: scale(1.035) translateY(-4px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.6),
+    0 0 0 2px rgba(59,130,246,0.6),
+    0 0 20px rgba(59,130,246,0.4);
 }
 
     /* 3D VIEWER container — exactly as before */
@@ -130,6 +139,39 @@
     }
 
     /* stylelint-disable */
+
+
+
+    /* CURSOR GLOW */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 140px;
+  height: 140px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, rgba(59,130,246,0.15) 40%, transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  transition: transform 0.08s ease-out, width 0.2s ease, height 0.2s ease;
+}
+
+/* Cursor grows when hovering interactive elements */
+body.hovering .cursor-glow {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, rgba(59,130,246,0.2) 40%, transparent 70%);
+}
+
+
+
+
+
+
+
+
+    /*style--------------------------------------------------------------------------------------------------------------------------------*/
   </style>
 </head>
 
@@ -363,8 +405,30 @@
   renderer.domElement.style.height = "100%";
   
   console.log("🚀 3D viewer ready — background greyish-blue, controls active");
+
+
+
+  const glow = document.querySelector(".cursor-glow");
+
+  window.addEventListener("mousemove", (e) => {
+    glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+
+  // make cursor react on hover
+  const hoverTargets = document.querySelectorAll("a, button, img");
+
+  hoverTargets.forEach(el => {
+    el.addEventListener("mouseenter", () => {
+      document.body.classList.add("hovering");
+    });
+    el.addEventListener("mouseleave", () => {
+      document.body.classList.remove("hovering");
+    });
+  });
+
 </script>
 
 <!-- small fallback: if images missing, keep layout clean -->
+<div class="cursor-glow"></div> 
 </body>
 </html>
