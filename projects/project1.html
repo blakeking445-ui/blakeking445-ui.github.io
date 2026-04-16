@@ -446,10 +446,28 @@ let mouseY = 0;
 let currentX = 0;
 let currentY = 0;
 
-window.addEventListener("mousemove", (e) => {
+const g = document.getElementById('glow');
+
+let mouseX = 0, mouseY = 0;
+let x = 0, y = 0;
+
+document.addEventListener('mousemove', (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
+
+function animateGlow() {
+  // faster interpolation = more responsive
+  x += (mouseX - x) * 0.35;
+  y += (mouseY - y) * 0.35;
+
+  g.style.left = x + 'px';
+  g.style.top = y + 'px';
+
+  requestAnimationFrame(animateGlow);
+}
+
+animateGlow();
 
 function animateCursor() {
   // smooth easing (this is what makes it feel "premium")
