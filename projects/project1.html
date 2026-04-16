@@ -156,22 +156,37 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 260px;
-  height: 260px;
+  width: 320px;
+  height: 320px;
   pointer-events: none;
   border-radius: 50%;
   z-index: 9999;
 
+  /* MUCH softer + more modern dispersion */
   background: radial-gradient(circle,
-    rgba(59,130,246,0.35) 0%,
-    rgba(59,130,246,0.18) 25%,
-    rgba(59,130,246,0.08) 45%,
-    rgba(59,130,246,0.03) 60%,
-    transparent 75%
+    rgba(59,130,246,0.25) 0%,
+    rgba(59,130,246,0.18) 15%,
+    rgba(59,130,246,0.10) 30%,
+    rgba(59,130,246,0.05) 50%,
+    rgba(59,130,246,0.02) 65%,
+    transparent 80%
   );
 
+  /* IMPORTANT: remove translate centering */
   transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+  filter: blur(20px); /* THIS is what makes it modern */
+}
+
+body.hovering .cursor-glow {
+  width: 380px;
+  height: 380px;
+
+  background: radial-gradient(circle,
+    rgba(59,130,246,0.28) 0%,
+    rgba(59,130,246,0.18) 20%,
+    rgba(59,130,246,0.08) 45%,
+    transparent 75%
+  );
 }
 
 body.hovering .cursor-glow {
@@ -438,52 +453,8 @@ body.hovering .cursor-glow {
   console.log("🚀 3D viewer ready — background greyish-blue, controls active");
 
 
-
-
- 
-
+  <script>
 <script>
-
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let currentX = 0;
-  let currentY = 0;
-
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animate() {
-    currentX += (mouseX - currentX) * 0.15;
-    currentY += (mouseY - currentY) * 0.15;
-
-    glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
-
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-});
-</script>
-</script>
-
-  <script>
-  const targets = document.querySelectorAll("a, button, img");
-
-  targets.forEach(el => {
-    el.addEventListener("mouseenter", () => {
-      document.body.classList.add("hovering");
-    });
-    el.addEventListener("mouseleave", () => {
-      document.body.classList.remove("hovering");
-    });
-  });
-</script>
-
-
-  <script>
 document.addEventListener("DOMContentLoaded", () => {
   const glow = document.querySelector(".cursor-glow");
 
@@ -497,21 +468,21 @@ document.addEventListener("DOMContentLoaded", () => {
     mouseY = e.clientY;
   });
 
-  function animateCursor() {
-    currentX += (mouseX - currentX) * 0.15;
-    currentY += (mouseY - currentY) * 0.15;
+  function animate() {
+    currentX += (mouseX - currentX) * 0.12;
+    currentY += (mouseY - currentY) * 0.12;
 
-    glow.style.transform = `translate(${currentX}px, ${currentY}px)`;
+    // THIS centers it properly
+    glow.style.left = currentX + "px";
+    glow.style.top = currentY + "px";
 
-    requestAnimationFrame(animateCursor);
+    requestAnimationFrame(animate);
   }
 
-  animateCursor();
+  animate();
 
-  // hover effect
-  const targets = document.querySelectorAll("a, button, img");
-
-  targets.forEach(el => {
+  // hover reaction
+  document.querySelectorAll("a, button, img").forEach(el => {
     el.addEventListener("mouseenter", () => {
       document.body.classList.add("hovering");
     });
