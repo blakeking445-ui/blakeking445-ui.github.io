@@ -69,59 +69,44 @@
       }
     }
 
-    .image-row img {
-  width: 48%;
-  height: 340px;
-  object-fit: cover;
-  border-radius: 12px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
+ .cursor-glow{
+  position:fixed;
+  width:420px;
+  height:420px;
+  pointer-events:none;
+  border-radius:50%;
+  z-index:9999;
 
-.image-row img:hover {
-  transform: scale(1.035) translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.6);
-}
+  background: radial-gradient(circle,
+    rgba(255,255,255,0.45) 0%,
+    rgba(59,130,246,0.40) 8%,
+    rgba(59,130,246,0.20) 20%,
+    rgba(59,130,246,0.08) 45%,
+    rgba(59,130,246,0.02) 65%,
+    transparent 80%
+  );
 
-    /* CURSOR GLOW */
-.cursor-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 140px;
-  height: 140px;
-  pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(59,130,246,0.25) 0%, rgba(59,130,246,0.15) 40%, transparent 70%);
+  filter: blur(28px);
   transform: translate(-50%, -50%);
-  z-index: 9999;
-  transition: transform 0.08s ease-out, width 0.2s ease, height 0.2s ease;
+  will-change: transform;
 }
-
-/* Cursor grows when hovering interactive elements */
-body.hovering .cursor-glow {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, rgba(59,130,246,0.2) 40%, transparent 70%);
-}
-
-
-    .image-row img {
-  width: 48%;
-  height: 340px;
-  object-fit: cover;
-  border-radius: 12px;
+    
+    .image-row img,
+img {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.image-row img:hover {
-  transform: scale(1.035) translateY(-4px);
+.image-row img:hover,
+img:hover {
+  transform: scale(1.04);
   box-shadow:
-    0 16px 40px rgba(0,0,0,0.6),
-    0 0 0 2px rgba(59,130,246,0.6),
-    0 0 20px rgba(59,130,246,0.4);
+    0 25px 60px rgba(0,0,0,0.6),
+    0 0 40px rgba(59,130,246,0.5),
+    0 0 100px rgba(59,130,246,0.35),
+    0 0 180px rgba(59,130,246,0.2);
 }
 
-    /*style------------------------------------------------------------------------------------------------------------------------------*/
+    
   </style>
 </head>
 
@@ -136,9 +121,7 @@ body.hovering .cursor-glow {
 
   <!-- DESCRIPTION -->
   <p>
-    Write your project description here. Explain what you built, why you built it,
-    and what makes it interesting. Keep it similar tone to your first project so
-    your portfolio feels consistent.
+    testing testing testing
   </p>
 
   <!-- MEDIA -->
@@ -149,26 +132,36 @@ body.hovering .cursor-glow {
     <img src="project2_demo.gif" alt="Project demo GIF">
   </div>
 
-</div>
+
+
+ 
+
+
+
   <script>
-  const glow = document.querySelector(".cursor-glow");
+const glow = document.querySelector(".cursor-glow");
 
-  window.addEventListener("mousemove", (e) => {
-    glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-  });
+let mouseX = 0, mouseY = 0;
+let x = 0, y = 0;
 
-  // make cursor react on hover
-  const hoverTargets = document.querySelectorAll("a, button, img");
+document.addEventListener("mousemove", (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
 
-  hoverTargets.forEach(el => {
-    el.addEventListener("mouseenter", () => {
-      document.body.classList.add("hovering");
-    });
-    el.addEventListener("mouseleave", () => {
-      document.body.classList.remove("hovering");
-    });
-  });
-</script> 
-<div class="cursor-glow"></div>
+function animateGlow() {
+  x += (mouseX - x) * 0.45;
+  y += (mouseY - y) * 0.45;
+
+  glow.style.transform =
+    `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+
+  requestAnimationFrame(animateGlow);
+}
+
+animateGlow();
+</script>
+
+  
 </body>
 </html>
