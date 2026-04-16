@@ -194,7 +194,7 @@
       
       .images-section img {
         width: 100%;
-        height: 180px;
+        height: 350px;
       }
     }
   </style>
@@ -209,10 +209,15 @@
   <h1> Reverse Engineered Fuel Door Mount </h1>
 
   <p>
-   Designed and prototyped a custom 3D-printed fuel door mount to replace a broken factory component. The part was reverse-engineered using a 3D scan and verified with measurements taken using vernier calipers, then modelled in Fusion 360 to accurately match the vehicle's contours. Multiple iterations were printed and tested to refine fit and durability, with a final design incorporating P-clips as a hinge mechanism after an initial plastic hinge approach proved unreliable.
-    Below you can compare the precise CAD (blue) with the raw scan (orange).
-  </p>
-
+  Developed a structured workflow to analyze dimensional deviation between 
+    a machined component and its CAD model using heat map visualization. The process involved aligning scan data to the original CAD
+    geometry and computing point-to-surface deviations to quantify manufacturing errors across the entire part. These deviations were 
+    visualized as a color-mapped heat map, allowing quick identification of localized inaccuracies such as overcuts, undercuts, 
+    and surface distortion.
+This method improved inspection efficiency by replacing manual measurements with a
+    full-field comparison approach, enabling clearer and more consistent validation
+    of machining quality against design specifications.
+    </p>
   <!-- NEW: Side-by-side layout for 3D viewer and images -->
   <div class="viewer-image-row">
     <!-- Left side: 3D Viewer -->
@@ -236,8 +241,8 @@
     <!-- Right side: Images -->
     <div class="images-section">
       <h2 style="margin: 0 0 4px 0;"> Final product images</h2>
-      <img src="project11.jpg" alt="Project shot 1">
-      <img src="project12.jpg" alt="Project shot 2">
+      <img src="project31.jpg" alt="Project shot 1">
+      <img src="project32.jpg" alt="Project shot 2">
     </div>
   </div>
 
@@ -310,7 +315,7 @@
 
   // ----- LOAD CAD -----
   loader.load(
-    "baseparametric.glb",
+    "../oilerparametric.glb",
     (gltf) => {
       cadModel = gltf.scene;
       
@@ -334,7 +339,7 @@
 
   // ----- LOAD SCAN -----
   loader.load(
-    "basescan.glb",
+    "../oilerscanfixed.glb",
     (gltf) => {
       scanModel = gltf.scene;
       
