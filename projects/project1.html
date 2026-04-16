@@ -30,14 +30,14 @@
   z-index: 9999;
 
  /* 🔥 BRIGHT CORE + SOFT FALLOFF */
-  background: radial-gradient(circle,
-    rgba(255,255,255,0.20) 0%,      /* bright core */
-    rgba(59,130,246,0.35) 6%,       /* blue-hot ring */
-    rgba(59,130,246,0.18) 18%,
-    rgba(59,130,246,0.08) 38%,
-    rgba(59,130,246,0.03) 60%,
-    transparent 78%
-  );
+background: radial-gradient(circle,
+  rgba(255,255,255,0.45) 0%,
+  rgba(59,130,246,0.40) 8%,
+  rgba(59,130,246,0.20) 20%,
+  rgba(59,130,246,0.08) 45%,
+  rgba(59,130,246,0.02) 65%,
+  transparent 80%
+);
 
   filter: blur(28px);
   opacity: 0.95;
@@ -441,45 +441,26 @@ body.hovering .cursor-glow {
   <script>
 const glow = document.querySelector(".cursor-glow");
 
-let mouseX = 0;
-let mouseY = 0;
-let currentX = 0;
-let currentY = 0;
-
-const g = document.getElementById('glow');
-
 let mouseX = 0, mouseY = 0;
 let x = 0, y = 0;
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener("mousemove", (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
 });
 
-function animateGlow() {
-  // faster interpolation = more responsive
-  x += (mouseX - x) * 0.35;
-  y += (mouseY - y) * 0.35;
+function animate() {
+  // VERY responsive follow (almost no lag)
+  x += (mouseX - x) * 0.45;
+  y += (mouseY - y) * 0.45;
 
-  g.style.left = x + 'px';
-  g.style.top = y + 'px';
+  glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
 
-  requestAnimationFrame(animateGlow);
+  requestAnimationFrame(animate);
 }
 
-animateGlow();
+animate();
 
-function animateCursor() {
-  // smooth easing (this is what makes it feel "premium")
-  currentX += (mouseX - currentX) * 0.12;
-  currentY += (mouseY - currentY) * 0.12;
-
-  glow.style.transform = `translate(${currentX}px, ${currentY}px) translate(-50%, -50%)`;
-
-  requestAnimationFrame(animateCursor);
-}
-
-animateCursor();
 </script>
 
  
