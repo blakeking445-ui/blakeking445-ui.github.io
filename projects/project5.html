@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Project · Agitator Blade Assembly · Interactive 3D Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', 'Arial', system-ui, -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+      background: #0f172a;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+
+    /* Back Button - upgraded style */
+    .back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      padding: 10px 18px;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 40px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      z-index: 30;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(255,255,255,0.15);
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    .back:hover {
+      background: rgba(59,130,246,0.8);
+      border-color: rgba(255,255,255,0.4);
+      transform: translateY(-2px);
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 100px 24px 60px;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff, #94a3f8);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    /* Blue vertical line description block */
+    .description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      opacity: 0.85;
+      max-width: 780px;
+      margin-bottom: 2.5rem;
+      border-left: 3px solid #3b82f6;
+      padding-left: 20px;
+    }
+
+    .description p {
+      margin: 0;
+    }
+
+    /* Two-column layout for 3D viewer and image */
+    .media-row {
+      display: flex;
+      gap: 28px;
+      margin: 30px 0 40px;
+      flex-wrap: wrap;
+    }
+
+    .viewer-col {
+      flex: 1.2;
+      min-width: 280px;
+      background: #0a0f1c;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(59,130,246,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .viewer-col:hover {
+      transform: scale(1.01);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(59,130,246,0.4);
+    }
+
+    .image-col {
+      flex: 0.9;
+      min-width: 260px;
+      background: #0a0f1c;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(59,130,246,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .image-col:hover {
+      transform: scale(1.01);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6);
+    }
+
+    .viewer-col h3, .image-col h3 {
+      margin: 0;
+      padding: 16px 20px 8px 20px;
+      font-weight: 500;
+      font-size: 1.2rem;
+      letter-spacing: -0.2px;
+      color: #cbd5e6;
+      border-bottom: 1px solid rgba(59,130,246,0.3);
+    }
+
+    .model-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #020617;
+      position: relative;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 20%, #0a1022, #010101);
+      --poster-color: transparent;
+    }
+
+    .instruction-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 24px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #a0c4ff;
+      z-index: 10;
+      pointer-events: none;
+      font-family: monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .image-col img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .image-col img:hover {
+      transform: scale(1.02);
+    }
+
+    .caption-text {
+      padding: 12px 20px 18px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      border-top: 1px solid rgba(59,130,246,0.2);
+      background: rgba(15,23,42,0.4);
+    }
+
+    /* Tech note / supporting info */
+    .tech-note {
+      margin-top: 40px;
+      background: rgba(15, 23, 42, 0.7);
+      border-radius: 24px;
+      padding: 28px 24px;
+      border: 1px solid #2d3a5e;
+    }
+
+    .badge {
+      background: #0f172a;
+      border-radius: 32px;
+      padding: 6px 14px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: 14px;
+      color: #7aa2f7;
+      border: 1px solid #2d4a8a;
+    }
+
+    .grid-icons {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .grid-icons div {
+      flex: 1;
+      background: #0f172a80;
+      padding: 14px;
+      border-radius: 18px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 850px) {
+      .container {
+        padding: 80px 20px 40px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      .media-row {
+        flex-direction: column;
+      }
+      .viewer-col, .image-col {
+        width: 100%;
+      }
+    }
+
+    /* Cursor glow from original concept */
+    .cursor-glow {
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      pointer-events: none;
+      border-radius: 50%;
+      z-index: 9999;
+      background: radial-gradient(circle,
+        rgba(255,255,255,0.3) 0%,
+        rgba(59,130,246,0.35) 10%,
+        rgba(59,130,246,0.15) 30%,
+        rgba(59,130,246,0.05) 55%,
+        transparent 80%);
+      filter: blur(32px);
+      transform: translate(-50%, -50%);
+      will-change: transform;
+    }
+  </style>
+  <!-- Import Google's Model-Viewer web component -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <div class="cursor-glow"></div>
+  <a class="back" href="../index.html">← Back to Portfolio</a>
+
+  <div class="container">
+    <h1>Agitator Blade Design & Manufacturing Development</h1>
+    
+    <!-- Vertical blue line description -->
+    <div class="description">
+      <p>
+        Developed a fully defined CAD model and engineering drawing from an incomplete and minimally detailed sketch of an agitator blade. Missing geometry and critical features were interpreted and reconstructed using engineering judgment, functional requirements, and manufacturing considerations. The design was communicated to a machinist for production, and iterative feedback was incorporated to refine features for manufacturability, tolerancing, and overall performance. The final result was a production-ready design that bridged the gap between conceptual input and a functional, manufacturable component.
+This project highlights the ability to translate vague concepts into precise, manufacturable solutions through iteration and cross-disciplinary collaboration.
+
+      </p>
+    </div>
+
+    <!-- Two-column layout: 3D rotator (GLB) + static reference image -->
+    <div class="media-row">
+      <!-- Left column: Interactive 3D viewer (shaft remains upright, blade rotates around Y axis) -->
+      <div class="viewer-col">
+        <h3>Interactive 3D Model</h3>
+        <div class="model-wrapper">
+          <model-viewer 
+            id="agitator-viewer"
+            src="../agitator_assembly.glb" 
+            alt="3D model of agitator blade mounted on vertical shaft"
+            camera-controls 
+            touch-action="pan-y"
+            camera-orbit="45deg 75deg 2.5m"
+            exposure="1.2"
+            shadow-intensity="0.8"
+            auto-rotate
+            rotation-per-second="15deg"
+            disable-zoom
+            interaction-prompt="auto"
+            ar-status="not-presenting"
+            style="width:100%; height:100%;">
+            <div class="instruction-badge">↻ Drag to spin shaft | Auto-rotate enabled</div>
+          </model-viewer>
+        </div>
+        <div class="caption-text">
+          <strong>Spin to inspect</strong> — The shaft stays upright while the blade assembly rotates freely. Model reflects final machined geometry after feedback integration.
+        </div>
+      </div>
+
+      <!-- Right column: Reference image (final machined part or drawing) -->
+      <div class="image-col">
+        <h3>Final Manufactured Part</h3>
+        <img src="../project5.jpg" alt="Final machined agitator blade and shaft assembly" onerror="this.onerror=null;this.src='https://placehold.co/800x800/1e293b/3b82f6?text=Agitator+Blade+Final+Part'">
+        <div class="caption-text">
+          <strong>Production iteration</strong> — Component after implementing machinist feedback.
+      </div>
+    </div>
+
+    <!-- Additional process details, similar to previous project style -->
+    <div class="tech-note">
+      <div class="badge">FEEDBACK DRIVEN DESIGN · FUSION 360 · CAM OPTIMIZATION</div>
+      <p style="margin-bottom: 12px; font-size: 0.95rem;">
+        The interactive model on the left uses a high-fidelity GLB export directly from the final CAD assembly. Users can click and drag to spin the shaft and blade in any direction, simulating real-world inspection. The static image on the right shows the physical part after CNC machining. Key modifications from the initial sketch include: reinforced root fillet, adjusted keyseat depth, and a chamfered leading edge to reduce stress concentration.
+      </p>
+      <div class="grid-icons">
+        <div> Parametric creation from sketch</div>
+        <div> Machinist feedback </div>
+        <div> Redesign</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Smooth cursor glow effect (same as original but refined)
+    const glow = document.querySelector(".cursor-glow");
+    if (glow) {
+      let mouseX = 0, mouseY = 0;
+      let x = 0, y = 0;
+      document.addEventListener("mousemove", (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+      function animateGlow() {
+        x += (mouseX - x) * 0.35;
+        y += (mouseY - y) * 0.35;
+        glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateGlow);
+      }
+      animateGlow();
+    }
+
+    // Additional: ensure model-viewer gets proper sizing and auto-rotate is smooth
+    const modelViewer = document.getElementById('agitator-viewer');
+    if (modelViewer) {
+      // Option to reset camera on load if needed, but default works well
+      modelViewer.addEventListener('load', () => {
+        // Slight delay to ensure shadow and environment are correct
+        setTimeout(() => {
+          modelViewer.cameraOrbit = '45deg 75deg 2.5m';
+        }, 100);
+      });
+    }
+  </script>
+</body>
+</html>
