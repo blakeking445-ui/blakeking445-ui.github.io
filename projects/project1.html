@@ -68,17 +68,29 @@ body.hovering .cursor-glow {
 
     /* BACK BUTTON — exactly like original */
     .back {
-      position: fixed;
-      top: 15px;
-      left: 15px;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 8px;
-      color: white;
-      text-decoration: none;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-    }
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 10px 18px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 40px;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  z-index: 30;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255,255,255,0.15);
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.back:hover {
+  background: rgba(59,130,246,0.8);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateY(-2px);
+}
 
     /* PAGE LAYOUT */
     .container {
@@ -195,7 +207,16 @@ body.hovering .cursor-glow {
     /* stylelint-disable */
 
 
-    
+    .description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  max-width: 780px;
+  margin-bottom: 2rem;
+  border-left: 3px solid #3b82f6;
+  padding-left: 20px;
+}
+
 
 
 
@@ -206,7 +227,7 @@ body.hovering .cursor-glow {
 
 <body>
 <div class="cursor-glow"></div>
-<a class="back" href="../index.html">← Back</a>
+<a class="back" href="../index.html">← Back to Portfolio</a>
 
 <div class="container">
 
@@ -214,10 +235,13 @@ body.hovering .cursor-glow {
   <h1> Reverse Engineered Fuel Door Mount  </h1>
 
   <!-- DESCRIPTION -->
+
+  <div class="description">
   <p>
    Designed and prototyped a custom 3D-printed fuel door mount to replace a broken factory component. The part was reverse-engineered using a 3D scan and verified with measurements taken using vernier calipers, then modelled in Fusion 360 to accurately match the vehicle’s contours. Multiple iterations were printed and tested to refine fit and durability, with a final design incorporating P-clips as a hinge mechanism after an initial plastic hinge approach proved unreliable.
     Below you can compare the precise CAD (blue) with the raw scan (orange).
   </p>
+  </div>
 
   <!-- IMAGES (keeping same references) -->
   <h2> Final product images</h2>
