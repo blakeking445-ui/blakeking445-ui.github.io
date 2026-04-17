@@ -98,16 +98,19 @@
       min-width: 0;
     }
 
-    .images-section {
-      flex: 0.8;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
+  .images-section {
+  flex: 0.8;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: flex-start;
+  margin-top: 0;
+  margin-bottom: 4px;
+}
 
     .images-section img {
       width: 100%;
-      height: 500px;
+      height: 600px;
       object-fit: cover;
       border-radius: 12px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -125,7 +128,7 @@
 
     #viewer {
       width: 100%;
-      height: 1000px;
+      height: 1200px;
       border-radius: 16px;
       background: #111;
       overflow: hidden;
