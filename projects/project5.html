@@ -117,7 +117,7 @@
 
 .model-wrapper {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 1 / 1.6;
   background: #020617;
   position: relative;
 }
@@ -269,17 +269,18 @@ This project highlights the ability to translate vague concepts into precise, ma
     alt="3D model of agitator blade mounted on vertical shaft"
     camera-controls 
     touch-action="pan-y"
-    camera-orbit="45deg 75deg 2.5m"
+    camera-orbit="35deg 75deg 4.5m"
     exposure="1.2"
     shadow-intensity="0.8"
     auto-rotate
     rotation-per-second="15deg"
-    disable-zoom
     interaction-prompt="auto"
     ar-status="not-presenting"
     style="width:100%; height:100%;">
-    <div class="instruction-badge">↻ Drag to spin shaft | Auto-rotate enabled</div>
   </model-viewer>
+</div>
+<div class="instruction-badge" style="position: relative; margin-top: 12px; margin-left: 12px; display: inline-block; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 24px; font-size: 0.7rem; color: #a0c4ff;">
+  ↻ Drag to spin shaft | Auto-rotate enabled
 </div>
         <div class="caption-text">
           <strong>Spin to inspect</strong> — The shaft stays upright while the blade assembly rotates freely. Model reflects final machined geometry after feedback integration.
@@ -335,7 +336,7 @@ This project highlights the ability to translate vague concepts into precise, ma
       modelViewer.addEventListener('load', () => {
         // Slight delay to ensure shadow and environment are correct
         setTimeout(() => {
-          modelViewer.cameraOrbit = '45deg 75deg 2.5m';
+          modelViewer.cameraOrbit = '35deg 75deg 4.5m';
         }, 100);
       });
     }
