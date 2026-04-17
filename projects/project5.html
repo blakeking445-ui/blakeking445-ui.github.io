@@ -71,34 +71,39 @@
     }
 
     /* Two-column layout for 3D viewer and image */
-.media-row {
-  display: flex;
-  gap: 28px;
-  margin: 30px 0 40px;
-  flex-wrap: wrap;
-}
+    .media-row {
+      display: flex;
+      gap: 28px;
+      margin: 30px 0 40px;
+      flex-wrap: wrap;
+    }
 
-.viewer-col {
-  flex: 0.7;
-  min-width: 260px;
-  background: #0a0f1c;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
-  border: 1px solid rgba(59,130,246,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    .viewer-col {
+      flex: 0.7;
+      min-width: 260px;
+      background: #0a0f1c;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(59,130,246,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-.image-col {
-  flex: 1.3;
-  min-width: 320px;
-  background: #0a0f1c;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
-  border: 1px solid rgba(59,130,246,0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    .image-col {
+      flex: 1.3;
+      min-width: 320px;
+      background: #0a0f1c;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(59,130,246,0.3);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .viewer-col:hover {
+      transform: scale(1.01);
+      box-shadow: 0 25px 40px -12px rgba(0,0,0,0.6);
+    }
 
     .image-col:hover {
       transform: scale(1.01);
@@ -115,12 +120,12 @@
       border-bottom: 1px solid rgba(59,130,246,0.3);
     }
 
-.model-wrapper {
-  width: 100%;
-  aspect-ratio: 1 / 1.6;
-  background: #020617;
-  position: relative;
-}
+    .model-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1.6;
+      background: #020617;
+      position: relative;
+    }
 
     model-viewer {
       width: 100%;
@@ -130,30 +135,30 @@
     }
 
     .instruction-badge {
-      position: absolute;
-      bottom: 12px;
-      left: 12px;
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.65);
       backdrop-filter: blur(8px);
-      padding: 5px 12px;
-      border-radius: 24px;
-      font-size: 0.7rem;
+      padding: 6px 14px;
+      border-radius: 28px;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #a0c4ff;
-      z-index: 10;
-      pointer-events: none;
       font-family: monospace;
       letter-spacing: 0.5px;
+      display: inline-block;
+      margin-top: 12px;
+      margin-left: 16px;
+      border: 1px solid rgba(59,130,246,0.4);
     }
 
- .image-col img {
-  width: 100%;
-  aspect-ratio: 8.5 / 11;
-  object-fit: contain;
-  background: #0f172a;
-  display: block;
-  transition: transform 0.3s ease;
-}
+    .image-col img {
+      width: 100%;
+      aspect-ratio: 8.5 / 11;
+      object-fit: contain;
+      background: #0f172a;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    
     .image-col img:hover {
       transform: scale(1.02);
     }
@@ -217,6 +222,10 @@
       .viewer-col, .image-col {
         width: 100%;
       }
+      .instruction-badge {
+        margin-left: 12px;
+        font-size: 0.7rem;
+      }
     }
 
     /* Cursor glow from original concept */
@@ -252,8 +261,7 @@
     <div class="description">
       <p>
         Developed a fully defined CAD model and engineering drawing from an incomplete and minimally detailed sketch of an agitator blade. Missing geometry and critical features were interpreted and reconstructed using engineering judgment, functional requirements, and manufacturing considerations. The design was communicated to a machinist for production, and iterative feedback was incorporated to refine features for manufacturability, tolerancing, and overall performance. The final result was a production-ready design that bridged the gap between conceptual input and a functional, manufacturable component.
-This project highlights the ability to translate vague concepts into precise, manufacturable solutions through iteration and cross-disciplinary collaboration.
-
+        This project highlights the ability to translate vague concepts into precise, manufacturable solutions through iteration and cross-disciplinary collaboration.
       </p>
     </div>
 
@@ -263,36 +271,37 @@ This project highlights the ability to translate vague concepts into precise, ma
       <div class="viewer-col">
         <h3>Interactive 3D Model</h3>
         <div class="model-wrapper">
-  <model-viewer 
-    id="agitator-viewer"
-    src="agitator_assembly.glb" 
-    alt="3D model of agitator blade mounted on vertical shaft"
-    camera-controls 
-    touch-action="pan-y"
-    camera-orbit="35deg 75deg 4.5m"
-    exposure="1.2"
-    shadow-intensity="0.8"
-    auto-rotate
-    rotation-per-second="15deg"
-    interaction-prompt="auto"
-    ar-status="not-presenting"
-    style="width:100%; height:100%;">
-  </model-viewer>
-</div>
-<div class="instruction-badge" style="position: relative; margin-top: 12px; margin-left: 12px; display: inline-block; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 5px 12px; border-radius: 24px; font-size: 0.7rem; color: #a0c4ff;">
-  ↻ Drag to spin shaft | Auto-rotate enabled
-</div>
+          <model-viewer 
+            id="agitator-viewer"
+            src="agitator_assembly.glb" 
+            alt="3D model of agitator blade mounted on vertical shaft"
+            camera-controls 
+            touch-action="pan-y"
+            camera-orbit="35deg 75deg 4.8m"
+            exposure="1.2"
+            shadow-intensity="0.8"
+            auto-rotate
+            rotation-per-second="12deg"
+            interaction-prompt="auto"
+            ar-status="not-presenting"
+            style="width:100%; height:100%;">
+          </model-viewer>
+        </div>
+        <div class="instruction-badge">
+          🖱️ Drag to spin shaft and blade | Auto-rotate enabled | Scroll to zoom
+        </div>
         <div class="caption-text">
-          <strong>Spin to inspect</strong> — The shaft stays upright while the blade assembly rotates freely. Model reflects final machined geometry after feedback integration.
+          <strong>Spin to inspect</strong> — The shaft stays upright while the blade assembly rotates freely. Model reflects final machined geometry after feedback integration. Camera distance increased to show full assembly.
         </div>
       </div>
 
       <!-- Right column: Reference image (final machined part or drawing) -->
       <div class="image-col">
         <h3>Final Manufactured Part</h3>
-        <img src="../project5.jpg" alt="Final machined agitator blade and shaft assembly" onerror="this.onerror=null;this.src='https://placehold.co/800x800/1e293b/3b82f6?text=Agitator+Blade+Final+Part'">
+        <img src="../project5.jpg" alt="Final machined agitator blade and shaft assembly" onerror="this.onerror=null;this.src='https://placehold.co/800x1100/1e293b/3b82f6?text=Engineering+Drawing+%26+Final+Part'">
         <div class="caption-text">
-          <strong>Production iteration</strong> — Component after implementing machinist feedback.
+          <strong>Production iteration</strong> — Component after implementing machinist feedback. Engineering drawing shows full letter-size sheet with all critical dimensions and tolerances.
+        </div>
       </div>
     </div>
 
@@ -303,15 +312,15 @@ This project highlights the ability to translate vague concepts into precise, ma
         The interactive model on the left uses a high-fidelity GLB export directly from the final CAD assembly. Users can click and drag to spin the shaft and blade in any direction, simulating real-world inspection. The static image on the right shows the physical part after CNC machining. Key modifications from the initial sketch include: reinforced root fillet, adjusted keyseat depth, and a chamfered leading edge to reduce stress concentration.
       </p>
       <div class="grid-icons">
-        <div> Parametric creation from sketch</div>
-        <div> Machinist feedback </div>
-        <div> Redesign</div>
+        <div>📐 Parametric creation from rough sketch</div>
+        <div>⚙️ Machinist feedback integration</div>
+        <div>🔄 Redesign for manufacturability</div>
       </div>
     </div>
   </div>
 
   <script>
-    // Smooth cursor glow effect (same as original but refined)
+    // Smooth cursor glow effect
     const glow = document.querySelector(".cursor-glow");
     if (glow) {
       let mouseX = 0, mouseY = 0;
@@ -329,16 +338,24 @@ This project highlights the ability to translate vague concepts into precise, ma
       animateGlow();
     }
 
-    // Additional: ensure model-viewer gets proper sizing and auto-rotate is smooth
+    // Ensure model-viewer loads correctly with proper camera settings
     const modelViewer = document.getElementById('agitator-viewer');
     if (modelViewer) {
-      // Option to reset camera on load if needed, but default works well
+      // Handle load event to set optimal camera position showing full assembly
       modelViewer.addEventListener('load', () => {
-        // Slight delay to ensure shadow and environment are correct
         setTimeout(() => {
-          modelViewer.cameraOrbit = '35deg 75deg 4.5m';
-        }, 100);
+          // Set camera to show full shaft and blade - zoomed out for better visibility
+          modelViewer.cameraOrbit = '32deg 80deg 5.2m';
+          modelViewer.fieldOfView = '35deg';
+        }, 200);
       });
+      
+      // Fallback if model takes longer to load
+      setTimeout(() => {
+        if (modelViewer.loaded === false || modelViewer.modelIsVisible === false) {
+          console.log('Checking model status...');
+        }
+      }, 3000);
     }
   </script>
 </body>
