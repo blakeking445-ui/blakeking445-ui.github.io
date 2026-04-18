@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Project 5 · Scan-Based Parametric Reconstruction · Step Slider</title>
+  <title>Project 5 · Scan-Based Parametric Reconstruction · Gallery</title>
   <style>
     * {
       margin: 0;
@@ -83,8 +83,8 @@
       color: transparent;
     }
 
-    /* SLIDER CARD - THREE STAGE BUILD */
-    .slider-card {
+    /* GALLERY CARD */
+    .gallery-card {
       background: rgba(30, 41, 59, 0.5);
       backdrop-filter: blur(4px);
       border-radius: 28px;
@@ -94,108 +94,101 @@
       border: 1px solid rgba(59,130,246,0.3);
     }
 
-    .compare-container {
+    /* Gallery container */
+    .gallery-container {
       position: relative;
       width: 100%;
       background: #0a0f1c;
       border-radius: 20px;
       overflow: hidden;
-      cursor: ew-resize;
-      user-select: none;
       box-shadow: 0 12px 28px rgba(0,0,0,0.5);
     }
 
-    .image-wrapper {
+    .gallery-wrapper {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 10;
       background: #020617;
     }
 
-    /* Three layers: base = mesh, middle = sketch, top = body (final) */
-    .stage-image {
+    /* Image slides */
+    .gallery-slide {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain; /* Changed from cover to contain - this makes images smaller within the frame */
+      background: #0a0f1c;
       display: block;
+      opacity: 0;
+      transition: opacity 0.3s ease;
       pointer-events: none;
-      user-select: none;
     }
 
-    /* mesh always fully visible */
-    .mesh-image {
-      z-index: 1;
+    .gallery-slide.active {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    /* sketch revealed by slider */
-    .sketch-image {
-      z-index: 2;
-      clip-path: inset(0 0 0 0);
+    /* To make images appear even smaller, you can add padding around them */
+    /* This creates a frame effect with background showing */
+    .gallery-slide {
+      padding: 20px;
+      object-fit: contain;
     }
 
-    /* body (final) revealed further */
-    .body-image {
-      z-index: 3;
-      clip-path: inset(0 0 0 0);
-    }
-
-    /* Slider divider line + handle (dynamic) */
-    .slider-line {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: white;
-      box-shadow: 0 0 15px rgba(59,130,246,0.9), 0 0 5px rgba(255,255,255,0.8);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 20;
-      cursor: ew-resize;
-      transition: box-shadow 0.1s;
-    }
-
-    .slider-handle {
+    /* Navigation arrows */
+    .gallery-arrow {
       position: absolute;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 52px;
-      height: 52px;
-      background: rgba(255,255,255,0.96);
+      transform: translateY(-50%);
+      width: 48px;
+      height: 48px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 25;
-      cursor: grab;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 0 3px rgba(59,130,246,0.5);
-      transition: transform 0.15s ease, background 0.2s;
-      backdrop-filter: blur(2px);
-    }
-    .slider-handle:active {
-      cursor: grabbing;
-      transform: translate(-50%, -50%) scale(0.96);
-    }
-    .slider-handle svg {
-      width: 26px;
-      height: 26px;
-      stroke: #1e293b;
-      stroke-width: 1.8;
-      fill: none;
-    }
-    .slider-handle:hover {
-      background: #f8fafc;
-      transform: translate(-50%, -50%) scale(1.05);
-      box-shadow: 0 6px 24px rgba(59,130,246,0.7);
+      cursor: pointer;
+      z-index: 20;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: all 0.2s ease;
+      color: #f1f5f9;
     }
 
-    /* Labels floating on image — dynamic based on stage */
-    .stage-label {
+    .gallery-arrow:hover {
+      background: rgba(59,130,246,0.8);
+      border-color: rgba(255,255,255,0.4);
+      transform: translateY(-50%) scale(1.05);
+    }
+
+    .gallery-arrow:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .arrow-left {
+      left: 16px;
+    }
+
+    .arrow-right {
+      right: 16px;
+    }
+
+    .gallery-arrow svg {
+      width: 24px;
+      height: 24px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    /* Image label overlay */
+    .gallery-label {
       position: absolute;
       bottom: 20px;
+      left: 20px;
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(8px);
       padding: 8px 18px;
@@ -208,61 +201,83 @@
       font-family: monospace;
       border-left: 3px solid #3b82f6;
       color: #e0f2fe;
-      transition: opacity 0.2s;
-    }
-    .label-left {
-      left: 20px;
-      border-left-color: #f97316;
-      color: #ffedd5;
-    }
-    .label-right {
-      right: 20px;
-      border-left-color: #10b981;
-      color: #d1fae5;
     }
 
-    /* hint / progress bar */
-    .slider-hint {
+    /* Dot indicators - Instagram style */
+    .gallery-dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+      padding: 8px;
+    }
+
+    .gallery-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #475569;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      border: none;
+      padding: 0;
+    }
+
+    .gallery-dot:hover {
+      background: #94a3b8;
+      transform: scale(1.2);
+    }
+
+    .gallery-dot.active {
+      background: #3b82f6;
+      width: 10px;
+      height: 10px;
+      box-shadow: 0 0 12px rgba(59,130,246,0.6);
+    }
+
+    /* Optional: secondary darker style for active dot as requested */
+    /* The active dot is already darker/more prominent with blue and larger size */
+    /* If you want it explicitly darker: */
+    .gallery-dot.active {
+      background: #1e40af; /* darker blue */
+      box-shadow: 0 0 12px #1e40af;
+    }
+
+    /* Progress hint */
+    .gallery-hint {
       text-align: center;
-      margin-top: 18px;
+      margin-top: 8px;
       font-size: 0.85rem;
-      background: #1e293b70;
-      display: inline-block;
-      width: auto;
-      padding: 6px 16px;
-      border-radius: 40px;
-      backdrop-filter: blur(4px);
-      color: #cbd5e1;
+      color: #94a3b8;
       letter-spacing: 0.3px;
     }
 
-    /* stages indicator */
-    .stage-progress {
+    /* Stage labels under dots */
+    .stage-names {
       display: flex;
-      justify-content: space-between;
-      margin: 12px 10px 0;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 8px;
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 1px;
+      color: #64748b;
+    }
+
+    .stage-name {
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 4px 8px;
+    }
+
+    .stage-name:hover {
       color: #94a3b8;
     }
-    .stage-marker {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-    }
-    .stage-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 10px;
-      background: #334155;
-      margin-bottom: 4px;
-      transition: background 0.2s;
-    }
-    .stage-marker.active .stage-dot {
-      background: #3b82f6;
-      box-shadow: 0 0 10px #3b82f6;
+
+    .stage-name.active {
+      color: #93c5fd;
+      font-weight: 600;
     }
 
     .tech-note {
@@ -272,6 +287,7 @@
       padding: 28px 24px;
       border: 1px solid #2d3a5e;
     }
+
     .badge {
       background: #0f172a;
       border-radius: 32px;
@@ -284,12 +300,14 @@
       color: #7aa2f7;
       border: 1px solid #2d4a8a;
     }
+
     .grid-icons {
       display: flex;
       gap: 24px;
       flex-wrap: wrap;
       margin-top: 20px;
     }
+
     .grid-icons div {
       flex: 1;
       background: #0f172a80;
@@ -302,11 +320,13 @@
     @media (max-width: 680px) {
       .container { padding: 80px 16px 40px; }
       h1 { font-size: 2rem; }
-      .slider-handle { width: 44px; height: 44px; }
-      .slider-handle svg { width: 22px; height: 22px; }
-      .stage-label { padding: 4px 12px; font-size: 0.7rem; bottom: 12px; }
+      .gallery-arrow { width: 40px; height: 40px; }
+      .gallery-arrow svg { width: 20px; height: 20px; }
+      .gallery-label { padding: 4px 12px; font-size: 0.7rem; bottom: 12px; }
+      .stage-names { gap: 20px; font-size: 0.65rem; }
     }
 
+    /* Cursor glow effect */
     .cursor-glow {
       position: fixed;
       width: 420px;
@@ -319,16 +339,6 @@
       transform: translate(-50%, -50%);
       will-change: transform;
     }
-
-    .compare-container {
-      cursor: ew-resize;
-    }
-    .slider-handle:active {
-      cursor: grabbing;
-    }
-    .image-wrapper {
-      background: #000;
-    }
   </style>
 </head>
 <body>
@@ -338,57 +348,64 @@
   <div class="container">
     <h1>Scan-Based Parametric Reconstruction</h1>
     <div class="description">
-      3D scan data was processed into a clean mesh, then cross-section sketches were extracted to define critical profiles. Using parametric modeling, the final solid body was rebuilt with design intent, ready for manufacturing or further simulation. Drag the handle to move through the reconstruction stages — from raw mesh to sketch to final CAD body.
+      3D scan data was processed into a clean mesh, then cross-section sketches were extracted to define critical profiles. Using parametric modeling, the final solid body was rebuilt with design intent, ready for manufacturing or further simulation. Click through the stages to see the reconstruction workflow.
     </div>
 
-    <!-- INTERACTIVE THREE-STAGE SLIDER -->
+    <!-- GALLERY SECTION -->
     <h2> Mesh → Sketch → Solid Body</h2>
-    <div class="slider-card">
-      <div class="compare-container" id="compareContainer">
-        <div class="image-wrapper" id="imageWrapper">
-          <!-- STAGE 1: MESH (always visible base) -->
-          <img class="stage-image mesh-image" id="meshImg" src="mesh.jpg" alt="3D scan mesh" onerror="this.onerror=null;this.src='https://placehold.co/800x500/0f172a/94a3b8?text=MESH+(Scan+Data)';">
+    <div class="gallery-card">
+      <div class="gallery-container">
+        <div class="gallery-wrapper" id="galleryWrapper">
+          <!-- Image 1: MESH -->
+          <img class="gallery-slide active" id="slide1" src="mesh.jpg" alt="3D scan mesh" onerror="this.onerror=null;this.src='https://placehold.co/800x500/0f172a/94a3b8?text=MESH+(Scan+Data)';">
           
-          <!-- STAGE 2: SKETCH (revealed first) -->
-          <img class="stage-image sketch-image" id="sketchImg" src="sketch.jpg" alt="Section sketch / profile" onerror="this.onerror=null;this.src='https://placehold.co/800x500/1e293b/f97316?text=SKETCH+(2D+Profiles)';">
+          <!-- Image 2: SKETCH -->
+          <img class="gallery-slide" id="slide2" src="sketch.jpg" alt="Section sketch / profile" onerror="this.onerror=null;this.src='https://placehold.co/800x500/1e293b/f97316?text=SKETCH+(2D+Profiles)';">
           
-          <!-- STAGE 3: BODY (final solid, revealed last) -->
-          <img class="stage-image body-image" id="bodyImg" src="body.jpg" alt="Parametric solid body" onerror="this.onerror=null;this.src='https://placehold.co/800x500/0f172a/10b981?text=BODY+(Solid+CAD)';">
+          <!-- Image 3: BODY -->
+          <img class="gallery-slide" id="slide3" src="body.jpg" alt="Parametric solid body" onerror="this.onerror=null;this.src='https://placehold.co/800x500/0f172a/10b981?text=BODY+(Solid+CAD)';">
           
-          <!-- Divider line & handle -->
-          <div class="slider-line" id="sliderLine"></div>
-          <div class="slider-handle" id="sliderHandle">
-            <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8 4L16 12L8 20" />
-              <path d="M16 4L8 12L16 20" />
+          <!-- Navigation arrows -->
+          <div class="gallery-arrow arrow-left" id="prevBtn">
+            <svg viewBox="0 0 24 24">
+              <path d="M15 18L9 12L15 6" />
+            </svg>
+          </div>
+          <div class="gallery-arrow arrow-right" id="nextBtn">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 18L15 12L9 6" />
             </svg>
           </div>
           
-          <!-- Dynamic floating labels -->
-          <div class="stage-label label-left" id="leftLabel">MESH · raw scan</div>
-          <div class="stage-label label-right" id="rightLabel">SKETCH · profiles</div>
+          <!-- Dynamic label -->
+          <div class="gallery-label" id="galleryLabel">MESH · raw scan data</div>
         </div>
       </div>
       
-      <!-- Progress indicators -->
-      <div class="stage-progress">
-        <div class="stage-marker" id="markerMesh"><span class="stage-dot"></span><span>MESH</span></div>
-        <div class="stage-marker" id="markerSketch"><span class="stage-dot"></span><span>SKETCH</span></div>
-        <div class="stage-marker" id="markerBody"><span class="stage-dot"></span><span>SOLID BODY</span></div>
+      <!-- Dot indicators -->
+      <div class="gallery-dots">
+        <button class="gallery-dot active" data-index="0" id="dot1"></button>
+        <button class="gallery-dot" data-index="1" id="dot2"></button>
+        <button class="gallery-dot" data-index="2" id="dot3"></button>
       </div>
       
-      <div style="display: flex; justify-content: center; margin-top: 12px;">
-        <div class="slider-hint">
-          <span>← Drag handle to build — Mesh → Sketch → Body →</span>
-        </div>
+      <!-- Stage name labels -->
+      <div class="stage-names">
+        <span class="stage-name active" data-index="0">MESH</span>
+        <span class="stage-name" data-index="1">SKETCH</span>
+        <span class="stage-name" data-index="2">SOLID BODY</span>
+      </div>
+      
+      <div class="gallery-hint">
+        <span>←  Click arrows or dots to navigate  →</span>
       </div>
     </div>
 
     <div class="tech-note">
       <div class="badge"> REVERSE ENGINEERING · DESIGN INTENT</div>
       <p style="margin-bottom: 12px; font-size: 0.95rem;">
-        The slider simulates the parametric reconstruction workflow: starting from <strong>scan mesh (MESH)</strong>, transitioning into <strong>2D section sketches (SKETCH)</strong>, and finally the <strong>complete solid body (BODY)</strong>. 
-        Each stage reveals more of the design process.
+        The gallery shows the parametric reconstruction workflow: starting from <strong>scan mesh</strong>, transitioning into <strong>2D section sketches</strong>, and finally the <strong>complete solid body</strong>. 
+        Each stage builds upon the previous to recover original design intent.
       </p>
       <div class="grid-icons">
         <div>Mesh processing & alignment</div>
@@ -400,219 +417,110 @@
 
   <script>
     (function() {
-      // ----- THREE-STAGE SLIDER (Mesh → Sketch → Body) -----
-      const container = document.getElementById('compareContainer');
-      const imageWrapper = document.getElementById('imageWrapper');
-      const meshImg = document.getElementById('meshImg');
-      const sketchImg = document.getElementById('sketchImg');
-      const bodyImg = document.getElementById('bodyImg');
-      const sliderLine = document.getElementById('sliderLine');
-      const handle = document.getElementById('sliderHandle');
-      const leftLabel = document.getElementById('leftLabel');
-      const rightLabel = document.getElementById('rightLabel');
+      // Gallery functionality
+      const slides = [
+        document.getElementById('slide1'),
+        document.getElementById('slide2'),
+        document.getElementById('slide3')
+      ];
       
-      // Markers
-      const markerMesh = document.getElementById('markerMesh');
-      const markerSketch = document.getElementById('markerSketch');
-      const markerBody = document.getElementById('markerBody');
-
-      let isDragging = false;
-      let currentPercent = 50; // 0..100, where 0=mesh only, 50=mesh+sketch mix, 100=full body revealed
-
-      // Helper: map percent to stage clipping and labels
-      function updateSlider(percent) {
-        percent = Math.min(100, Math.max(0, percent));
-        currentPercent = percent;
-
-        // ---- STAGE LOGIC ----
-        // We want three regimes:
-        // 0% to 33% : Mesh dominant, sketch starts to appear (body hidden)
-        // 33% to 66% : Sketch becomes visible, body starts to creep in
-        // 66% to 100% : Body takes over, sketch fades out? but we use clip-path layering.
+      const dots = [
+        document.getElementById('dot1'),
+        document.getElementById('dot2'),
+        document.getElementById('dot3')
+      ];
+      
+      const stageNames = document.querySelectorAll('.stage-name');
+      const galleryLabel = document.getElementById('galleryLabel');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      // Labels for each slide
+      const slideLabels = [
+        'MESH · raw scan data',
+        'SKETCH · section profiles',
+        'BODY · parametric solid'
+      ];
+      
+      let currentIndex = 0;
+      
+      function showSlide(index) {
+        // Wrap around
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
         
-        // Approach: Sketch is revealed from left to right relative to slider. 
-        // But to simulate "building": as percent increases, more advanced stage appears.
-        // We'll treat sketch and body as overlays with clip-path.
-        // At 0%: sketch fully hidden, body hidden.
-        // At 33%: sketch fully revealed (clip 0), body hidden.
-        // At 66%: sketch still fully revealed, body begins to reveal.
-        // At 100%: body fully revealed (over sketch).
+        currentIndex = index;
         
-        // Normalize thresholds: 
-        // sketch visibility: from 0% to 33% it wipes in. After 33%, it stays fully visible.
-        // body visibility: from 33% to 66% it starts revealing, full at 100%.
+        // Update slides
+        slides.forEach((slide, i) => {
+          if (i === index) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
         
-        let sketchClipRight = 100; // hidden
-        let bodyClipRight = 100;    // hidden
+        // Update dots
+        dots.forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
         
-        if (percent <= 33.33) {
-          // sketch wipes in: at 0% -> hidden (100% right clip), at 33% -> fully visible (0% right clip)
-          const t = percent / 33.33;
-          sketchClipRight = 100 * (1 - t);
-          bodyClipRight = 100; // body hidden
-        } else if (percent <= 66.66) {
-          // sketch fully visible
-          sketchClipRight = 0;
-          // body starts wiping in: at 33% -> hidden (100%), at 66% -> partly (still hidden? we want body full at 100)
-          // map 33..66 to bodyClip 100..66? let's make body visible gradually from 33% to 100%
-          const t = (percent - 33.33) / (100 - 33.33); // 0 at 33%, 1 at 100%
-          bodyClipRight = 100 * (1 - t);
-        } else {
-          // percent > 66.66
-          sketchClipRight = 0;
-          const t = (percent - 33.33) / (100 - 33.33);
-          bodyClipRight = 100 * (1 - t);
-        }
-
-        // Apply clip paths: inset(top right bottom left) - we want right side hidden.
-        // For sketch: visible from left edge, hidden from right edge by clipRight.
-        sketchImg.style.clipPath = `inset(0 ${sketchClipRight}% 0 0)`;
-        bodyImg.style.clipPath = `inset(0 ${bodyClipRight}% 0 0)`;
-
-        // Update labels based on dominant stage
-        if (percent < 20) {
-          leftLabel.innerHTML = `MESH · raw scan data`;
-          rightLabel.innerHTML = `SKETCH · emerging`;
-        } else if (percent < 45) {
-          leftLabel.innerHTML = `MESH · reference`;
-          rightLabel.innerHTML = `SKETCH · section profiles`;
-        } else if (percent < 75) {
-          leftLabel.innerHTML = `SKETCH · extracted curves`;
-          rightLabel.innerHTML = `BODY · solid forming`;
-        } else {
-          leftLabel.innerHTML = `SKETCH · underlying`;
-          rightLabel.innerHTML = `BODY · parametric solid`;
-        }
-
-        // Update marker active states
-        function setActiveMarkers(p) {
-          markerMesh.classList.remove('active');
-          markerSketch.classList.remove('active');
-          markerBody.classList.remove('active');
-          if (p < 25) markerMesh.classList.add('active');
-          else if (p < 55) markerSketch.classList.add('active');
-          else markerBody.classList.add('active');
-        }
-        setActiveMarkers(percent);
-
-        // Position line and handle
-        const containerRect = imageWrapper.getBoundingClientRect();
-        if (containerRect.width > 0) {
-          const lineLeft = (percent / 100) * containerRect.width;
-          sliderLine.style.left = `${lineLeft}px`;
-          handle.style.left = `${lineLeft}px`;
-        } else {
-          sliderLine.style.left = `${percent}%`;
-          handle.style.left = `${percent}%`;
-        }
+        // Update stage names
+        stageNames.forEach((name, i) => {
+          if (i === index) {
+            name.classList.add('active');
+          } else {
+            name.classList.remove('active');
+          }
+        });
+        
+        // Update label
+        galleryLabel.textContent = slideLabels[index];
       }
-
-      function getRelativeX(clientX) {
-        const rect = imageWrapper.getBoundingClientRect();
-        if (!rect.width) return 50;
-        let x = clientX - rect.left;
-        x = Math.min(rect.width, Math.max(0, x));
-        return (x / rect.width) * 100;
-      }
-
-      function onMouseMove(e) {
-        if (!isDragging) return;
-        const percent = getRelativeX(e.clientX);
-        updateSlider(percent);
-      }
-
-      function onMouseUp() {
-        if (!isDragging) return;
-        isDragging = false;
-        document.body.style.cursor = '';
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        document.removeEventListener('touchmove', onTouchMove);
-        document.removeEventListener('touchend', onTouchEnd);
-      }
-
-      function onTouchMove(e) {
-        if (!isDragging) return;
-        e.preventDefault();
-        const touch = e.touches[0];
-        if (touch) {
-          updateSlider(getRelativeX(touch.clientX));
-        }
-      }
-
-      function onTouchEnd(e) {
-        onMouseUp();
-      }
-
-      function startDrag(clientX) {
-        isDragging = true;
-        updateSlider(getRelativeX(clientX));
-        document.body.style.cursor = 'ew-resize';
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-        document.addEventListener('touchmove', onTouchMove, { passive: false });
-        document.addEventListener('touchend', onTouchEnd);
-      }
-
-      function handleMouseDown(e) {
-        e.preventDefault();
-        let clientX = e.clientX;
-        if (!clientX && e.touches) clientX = e.touches[0]?.clientX;
-        if (clientX !== undefined) startDrag(clientX);
-      }
-
-      function onContainerMouseDown(e) {
-        if (isDragging) return;
-        let clientX = e.clientX;
-        if (clientX !== undefined) startDrag(clientX);
-        e.preventDefault();
-      }
-
-      // Event binding
-      if (handle) {
-        handle.addEventListener('mousedown', handleMouseDown);
-        handle.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          const touch = e.touches[0];
-          if (touch) startDrag(touch.clientX);
+      
+      // Event listeners
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          showSlide(currentIndex - 1);
         });
       }
-      if (sliderLine) {
-        sliderLine.addEventListener('mousedown', handleMouseDown);
-        sliderLine.addEventListener('touchstart', (e) => {
-          e.preventDefault();
-          const touch = e.touches[0];
-          if (touch) startDrag(touch.clientX);
+      
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          showSlide(currentIndex + 1);
         });
       }
-      if (container) {
-        container.addEventListener('mousedown', onContainerMouseDown);
-        container.addEventListener('touchstart', (e) => {
-          if (e.target === handle || e.target === sliderLine || handle.contains(e.target) || sliderLine.contains(e.target)) return;
-          e.preventDefault();
-          const touch = e.touches[0];
-          if (touch) startDrag(touch.clientX);
+      
+      // Dot click handlers
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
         });
-      }
-
+      });
+      
+      // Stage name click handlers
+      stageNames.forEach((name, index) => {
+        name.addEventListener('click', () => {
+          showSlide(index);
+        });
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          showSlide(currentIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+          showSlide(currentIndex + 1);
+        }
+      });
+      
       // Initialize
-      function initSlider() {
-        updateSlider(30); // start at sketch emerging phase
-        
-        window.addEventListener('resize', () => updateSlider(currentPercent));
-        
-        const reapply = () => updateSlider(currentPercent);
-        [meshImg, sketchImg, bodyImg].forEach(img => {
-          if (img) img.addEventListener('load', reapply);
-        });
-        
-        if (document.readyState === 'loading') {
-          window.addEventListener('load', () => updateSlider(currentPercent));
-        }
-      }
+      showSlide(0);
       
-      initSlider();
-
       // Cursor glow animation
       const glow = document.querySelector(".cursor-glow");
       if (glow) {
@@ -630,16 +538,32 @@
         }
         animateGlow();
       }
-
-      // Image naming guide: For the code to work, name your files:
-      // mesh.jpg  (or mesh.png)  – the 3D scan mesh image
-      // sketch.jpg – the section sketch / 2D profiles
-      // body.jpg   – the final parametric solid body
-      // Place them in the same directory as this HTML, or adjust src paths.
+      
+      // Image naming instructions (for reference)
+      console.log('Gallery Setup: Place mesh.jpg, sketch.jpg, body.jpg in the same folder.');
     })();
   </script>
   
-  <!-- fallback image naming hint (visible only if images missing) -->
-  <div style="display: none;" data-info="Place mesh.jpg, sketch.jpg, body.jpg in same folder."></div>
+  <!-- 
+    IMAGE SIZING NOTES:
+    To make images appear smaller within the gallery frame, you have two options:
+    
+    1. CSS-only (already applied): 
+       - object-fit: contain (instead of cover) shows the full image with letterboxing
+       - padding: 20px on .gallery-slide adds space around the image
+    
+    2. For even smaller appearance:
+       - Increase the padding value (e.g., padding: 40px)
+       - Or wrap images in a container with max-width/max-height
+    
+    3. To physically resize the image files:
+       - Use any image editor to reduce dimensions (e.g., 1200x750 instead of 2400x1500)
+       - This improves load time and makes images naturally smaller
+    
+    IMAGE FILE NAMES REQUIRED:
+    - mesh.jpg (or mesh.png)  → 3D scan mesh
+    - sketch.jpg              → section sketch / 2D profiles  
+    - body.jpg                → final parametric solid body
+  -->
 </body>
 </html>
