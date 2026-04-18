@@ -190,39 +190,75 @@
     }
 
     /* Labels floating on image */
-    .label-left, .label-right {
-      position: absolute;
-      bottom: 20px;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(8px);
-      padding: 8px 18px;
-      border-radius: 60px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
-      z-index: 18;
-      pointer-events: none;
-      font-family: monospace;
-      border-left: 3px solid #ef4444;
-    }
-    .label-left {
-      left: 20px;
-      border-left-color: #ef4444;
-      color: #fee2e2;
-    }
-    .label-right {
-      right: 20px;
-      border-left-color: #3b82f6;
-      color: #d9e6ff;
-    }
-    .label-left span, .label-right span {
-      font-weight: 700;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      display: inline-block;
-      margin-right: 6px;
-    }
+.label-left, .label-right {
+  position: absolute;
+  bottom: 20px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  z-index: 18;
+  pointer-events: none;
+  font-family: monospace;
+  border-left: 3px solid #ef4444;
+  white-space: nowrap;
+}
+.label-left {
+  left: 20px;
+  border-left-color: #ef4444;
+  color: #fee2e2;
+}
+.label-right {
+  right: 20px;
+  border-left-color: #3b82f6;
+  color: #d9e6ff;
+}
+.label-left span, .label-right span {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  display: inline-block;
+  margin-right: 6px;
+}
 
+@media (max-width: 680px) {
+  .container {
+    padding: 80px 16px 40px;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  .slider-handle {
+    width: 44px;
+    height: 44px;
+  }
+  .slider-handle svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  /* Mobile label adjustments */
+  .label-left, .label-right {
+    bottom: 12px;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+    white-space: normal;
+    max-width: 120px;
+  }
+  .label-left {
+    left: 8px;
+  }
+  .label-right {
+    right: 8px;
+  }
+  .label-left span, .label-right span {
+    font-size: 0.55rem;
+    margin-right: 3px;
+  }
+}
     /* control hint */
     .slider-hint {
       text-align: center;
