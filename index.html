@@ -336,6 +336,29 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
   pointer-events: none; /* prevents hover jitter */
 }
   /*STYLE---------------------------------------------------------------------------------------------------------------*/
+
+  .skills-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.developing-card {
+  grid-column: 1 / -1;
+  max-width: calc(50% - 11px);
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 680px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .developing-card {
+    grid-column: auto;
+    max-width: 100%;
+  }
+}
+  
   /* WORK TERM EXPERIENCE STYLES */
 #experience {
   max-width: 1100px;
@@ -425,6 +448,8 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
     align-items: center;
   }
 }  
+
+
 </style>
 </head>
 
@@ -478,7 +503,7 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
 
  
 
-  <div class="grid">
+  <div class="grid skills-grid">
     <div class="card">
       <h3>Core Skills</h3>
       <p>Fusion 360 (CAD/CAM), Onshape, Engineering Drawings, 3D Scanning & Reverse Engineering, Prototyping</p>
@@ -487,12 +512,11 @@ footer{ text-align:center; padding:30px 10px; color:var(--muted) }
       <h3>Tools</h3>
       <p>Fusion 360, Calipers/Micrometers, CNC, 3D Printers, Slicers, Inspection workflows</p>
     </div>
-  </div>
-
-      <div class="card">
+    <div class="card developing-card">
       <h3>Developing Skills</h3>
-      <p>BricsCAD, Machining, Sketchup, Blender</p>
+      <p> Advanced CAM Strategies, Design for Manufacturing, BricsCAD, Machining, Sketchup, Blender</p>
     </div>
+</div>
 </section>
 
 
